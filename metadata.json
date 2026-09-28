@@ -1,0 +1,7 @@
+{
+  "name": "TuBodeguita",
+  "description": "Offline-first smart point-of-sale system with dual currency, extensible pricing strategies (manual and bulk-pack wholesale assistant), real-time inventory, debt ledgers, and auto cloud sync.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

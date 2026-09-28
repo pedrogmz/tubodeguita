@@ -1,0 +1,1049 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #0A0A0A;
+    color: #d4d4d4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Thermal receipt paper styling */
+.receipt-paper {
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.1), 0 2px 6px -1px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.receipt-tear-top {
+  background: radial-gradient(circle, transparent, transparent 4px, #ffffff 4px, #ffffff 5px, transparent 6px);
+  background-size: 12px 12px;
+  background-position: -6px -6px;
+}
+
+/* Thermal printer @media print styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0;
+    padding: 10px;
+    background: white;
+    color: black;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+}
+
+/* Custom scrollbar for POS item grids */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #404040;
+}
+
+/* ==========================================================================
+   Light Mode Theme Overrides
+   ========================================================================== */
+html.light {
+  color-scheme: light;
+}
+
+html.light body {
+  background-color: #f8fafc;
+  color: #334155;
+}
+
+/* Base canvas & surface backgrounds */
+html.light .bg-\[\#0A0A0A\],
+html.light .bg-\[\#080808\] {
+  background-color: #f8fafc !important;
+}
+
+html.light header.bg-\[\#0D0D0D\],
+html.light .bg-\[\#0D0D0D\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-\[\#121212\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-\[\#141414\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .bg-\[\#171717\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .bg-\[\#1a140a\] {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  border-color: #fde68a !important;
+}
+
+/* Neutral card surfaces & containers */
+html.light .bg-neutral-900 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-neutral-950 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-neutral-950\/80,
+html.light .bg-neutral-950\/60,
+html.light .bg-neutral-950\/50 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-neutral-800 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-neutral-800\/40,
+html.light .bg-neutral-800\/50,
+html.light .bg-neutral-800\/60,
+html.light .bg-neutral-800\/70,
+html.light .bg-neutral-800\/80,
+html.light .bg-neutral-800\/90,
+html.light .bg-neutral-900\/40,
+html.light .bg-neutral-900\/50,
+html.light .bg-neutral-900\/60,
+html.light .bg-neutral-900\/70,
+html.light .bg-neutral-900\/80,
+html.light .bg-neutral-900\/90 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-neutral-700 {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+/* ==========================================================================
+   Button & Interactive Hovers in Light Mode
+   ========================================================================== */
+html.light .hover\:bg-\[\#0D0D0D\]:hover {
+  background-color: #f1f5f9 !important;
+}
+
+html.light .hover\:bg-neutral-900:hover {
+  background-color: #e2e8f0 !important;
+}
+
+html.light .hover\:bg-neutral-800:hover,
+html.light .hover\:bg-neutral-800\/60:hover,
+html.light .hover\:bg-neutral-800\/50:hover,
+html.light .hover\:bg-neutral-700:hover {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light .hover\:bg-neutral-800\/40:hover {
+  background-color: #f1f5f9 !important;
+}
+
+html.light .hover\:bg-neutral-600:hover {
+  background-color: #cbd5e1 !important;
+}
+
+html.light .hover\:bg-amber-900\/50:hover {
+  background-color: #fef3c7 !important;
+  border-color: #fde68a !important;
+}
+
+html.light .hover\:bg-orange-900\/50:hover {
+  background-color: #ffedd5 !important;
+  border-color: #fed7aa !important;
+}
+
+html.light .hover\:bg-emerald-500:hover,
+html.light .hover\:bg-emerald-600:hover,
+html.light .hover\:bg-accent:hover {
+  background-color: var(--accent-hover) !important;
+  border-color: var(--accent-active) !important;
+  color: #ffffff !important;
+}
+
+html.light .hover\:bg-red-500:hover {
+  background-color: #b91c1c !important;
+  border-color: #dc2626 !important;
+}
+
+/* Hover Borders */
+html.light .hover\:border-neutral-700:hover {
+  border-color: #cbd5e1 !important;
+}
+
+html.light .hover\:border-emerald-500\/50:hover,
+html.light .hover\:border-emerald-600:hover,
+html.light .hover\:border-emerald-600\/70:hover,
+html.light .hover\:border-emerald-600\/80:hover {
+  border-color: var(--accent-border) !important;
+}
+
+html.light .hover\:border-orange-500\/50:hover {
+  border-color: #ea580c !important;
+}
+
+html.light .hover\:border-purple-500\/50:hover {
+  border-color: #9333ea !important;
+}
+
+/* Hover Text Colors */
+html.light .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+html.light .hover\:text-neutral-200:hover,
+html.light .hover\:text-neutral-300:hover {
+  color: #0f172a !important;
+}
+
+html.light .hover\:text-emerald-300:hover,
+html.light .hover\:text-emerald-400:hover {
+  color: #047857 !important;
+}
+
+html.light .hover\:text-amber-200:hover {
+  color: #92400e !important;
+}
+
+html.light .hover\:text-red-400:hover {
+  color: #dc2626 !important;
+}
+
+/* Group Hovers (Product cards plus icon, titles, etc.) */
+html.light .group:hover .group-hover\:bg-emerald-600 {
+  background-color: var(--accent-primary) !important;
+  color: #ffffff !important;
+}
+
+html.light .group:hover .group-hover\:text-white,
+html.light .group:hover .group-hover\:bg-emerald-600 * {
+  color: #ffffff !important;
+}
+
+html.light .group:hover .group-hover\:text-emerald-400 {
+  color: var(--accent-text-light) !important;
+}
+
+/* Borders */
+html.light .border-neutral-800,
+html.light .border-neutral-800\/50,
+html.light .border-neutral-800\/60,
+html.light .border-neutral-800\/80,
+html.light .border-neutral-700,
+html.light .border-neutral-700\/80,
+html.light .border-neutral-600 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Typography */
+html.light .text-white {
+  color: #0f172a !important;
+}
+
+html.light .text-neutral-100 {
+  color: #0f172a !important;
+}
+
+html.light .text-neutral-200,
+html.light .text-neutral-300 {
+  color: #334155 !important;
+}
+
+html.light .text-neutral-400 {
+  color: #64748b !important;
+}
+
+html.light .text-neutral-500 {
+  color: #94a3b8 !important;
+}
+
+html.light input,
+html.light textarea,
+html.light select {
+  color: #0f172a !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder,
+html.light .placeholder-neutral-500::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Buttons with white text (exceptions from .text-white override) */
+html.light button.bg-emerald-600,
+html.light .bg-emerald-600,
+html.light button.bg-emerald-600 *,
+html.light .bg-emerald-600 *,
+html.light button.bg-emerald-700,
+html.light .bg-emerald-700,
+html.light button.bg-emerald-700 *,
+html.light .bg-emerald-700 *,
+html.light button.bg-emerald-500,
+html.light .bg-emerald-500,
+html.light button.bg-emerald-500 *,
+html.light .bg-emerald-500 *,
+html.light #save-settings-btn,
+html.light #save-settings-btn *,
+html.light #save-settings-submit-btn,
+html.light #save-settings-submit-btn *,
+html.light #confirm-delete-product-btn,
+html.light #confirm-delete-product-btn *,
+html.light button.bg-red-600,
+html.light .bg-red-600,
+html.light button.bg-red-600 *,
+html.light .bg-red-600 *,
+html.light button.bg-red-500,
+html.light .bg-red-500,
+html.light button.bg-red-500 *,
+html.light .bg-red-500 *,
+html.light button.bg-rose-600,
+html.light .bg-rose-600,
+html.light button.bg-rose-600 *,
+html.light .bg-rose-600 *,
+html.light button.bg-rose-500,
+html.light .bg-rose-500,
+html.light button.bg-rose-500 *,
+html.light .bg-rose-500 *,
+html.light button.bg-purple-600,
+html.light .bg-purple-600,
+html.light button.bg-purple-600 *,
+html.light .bg-purple-600 * {
+  color: #ffffff !important;
+}
+
+/* Maintain white text on hover for primary colored buttons */
+html.light button.bg-emerald-600:hover,
+html.light .bg-emerald-600:hover,
+html.light button.bg-emerald-700:hover,
+html.light .bg-emerald-700:hover,
+html.light button.bg-emerald-500:hover,
+html.light .bg-emerald-500:hover,
+html.light #save-settings-btn:hover,
+html.light #save-settings-submit-btn:hover,
+html.light #confirm-delete-product-btn:hover,
+html.light #confirm-delete-product-btn:hover *,
+html.light button.bg-red-600:hover,
+html.light .bg-red-600:hover,
+html.light button.bg-red-500:hover,
+html.light .bg-red-500:hover,
+html.light button.bg-rose-600:hover,
+html.light .bg-rose-600:hover,
+html.light button.bg-rose-500:hover,
+html.light .bg-rose-500:hover,
+html.light button.bg-purple-600:hover,
+html.light .bg-purple-600:hover,
+html.light .bg-emerald-600:hover *,
+html.light .bg-emerald-700:hover *,
+html.light .bg-emerald-500:hover *,
+html.light #save-settings-btn:hover *,
+html.light #save-settings-submit-btn:hover *,
+html.light .bg-red-600:hover *,
+html.light .bg-red-500:hover *,
+html.light .bg-rose-600:hover *,
+html.light .bg-rose-500:hover *,
+html.light .bg-purple-600:hover * {
+  color: #ffffff !important;
+}
+
+/* Delete trash button red hover in light mode */
+html.light button[id^="delete-product-btn-"]:hover,
+html.light button#delete-product-from-modal-btn:hover {
+  background-color: #ef4444 !important;
+  border-color: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+html.light button[id^="delete-product-btn-"]:hover *,
+html.light button#delete-product-from-modal-btn:hover * {
+  color: #ffffff !important;
+}
+
+/* Explicit dynamic accent styling for Save Settings buttons in light mode */
+html.light #save-settings-btn,
+html.light #save-settings-submit-btn {
+  background-color: var(--accent-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-hover) !important;
+}
+
+html.light #save-settings-btn:hover,
+html.light #save-settings-submit-btn:hover {
+  background-color: var(--accent-hover) !important;
+  color: #ffffff !important;
+}
+
+/* Active navigation tabs in light mode */
+html.light nav button.bg-neutral-800.text-emerald-400,
+html.light .flex.md\:hidden button.bg-neutral-800.text-emerald-400,
+html.light #system-menu-dropdown .bg-neutral-800 {
+  background-color: #ffffff !important;
+  color: var(--accent-text-light) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light #system-menu-dropdown button#theme-select-dark-btn.bg-neutral-800 {
+  color: #4338ca !important;
+}
+
+html.light #system-menu-dropdown button#theme-select-light-btn.bg-neutral-800 {
+  color: #b45309 !important;
+}
+
+/* Category pills in light mode */
+html.light .bg-neutral-800.text-white {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+html.light .bg-emerald-600,
+html.light .bg-emerald-500,
+html.light .bg-accent,
+html.light button.bg-emerald-600,
+html.light button.bg-emerald-500,
+html.light button.bg-accent,
+html.light .bg-emerald-600.text-white {
+  background-color: var(--accent-primary) !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   Icon Backgrounds & Status Badges in Light Mode
+   ========================================================================== */
+
+/* Dynamic accent icons and badges */
+html.light .bg-emerald-950,
+html.light .bg-emerald-950\/20,
+html.light .bg-emerald-950\/30,
+html.light .bg-emerald-950\/40,
+html.light .bg-emerald-950\/50,
+html.light .bg-emerald-950\/60,
+html.light .bg-emerald-900\/40,
+html.light .bg-emerald-900\/50,
+html.light .bg-emerald-900\/60 {
+  background-color: var(--accent-light-bg) !important;
+  border-color: var(--accent-light-border) !important;
+}
+
+html.light .border-emerald-900\/40,
+html.light .border-emerald-900\/50,
+html.light .border-emerald-900\/60,
+html.light .border-emerald-800\/60 {
+  border-color: var(--accent-light-border) !important;
+}
+
+html.light .text-emerald-400,
+html.light .text-emerald-300 {
+  color: var(--accent-text-light) !important;
+}
+
+/* Amber icons and badges */
+html.light .bg-amber-950,
+html.light .bg-amber-950\/30,
+html.light .bg-amber-950\/40,
+html.light .bg-amber-950\/60,
+html.light .bg-amber-900\/40,
+html.light .bg-amber-900\/50,
+html.light .bg-amber-900\/60 {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+}
+
+html.light .border-amber-800\/60,
+html.light .border-amber-900\/50,
+html.light .border-amber-900\/60 {
+  border-color: #fde68a !important;
+}
+
+html.light .text-amber-400,
+html.light .text-amber-300 {
+  color: #b45309 !important;
+}
+
+html.light .text-amber-200 {
+  color: #92400e !important;
+}
+
+/* Purple icons and badges */
+html.light .bg-purple-950,
+html.light .bg-purple-950\/30,
+html.light .bg-purple-950\/40,
+html.light .bg-purple-900\/40,
+html.light .bg-purple-900\/50 {
+  background-color: #faf5ff !important;
+  border-color: #e9d5ff !important;
+}
+
+html.light .border-purple-900\/40,
+html.light .border-purple-900\/50 {
+  border-color: #e9d5ff !important;
+}
+
+html.light .text-purple-400,
+html.light .text-purple-300 {
+  color: #7e22ce !important;
+}
+
+/* Indigo icons and badges */
+html.light .bg-indigo-950,
+html.light .bg-indigo-950\/30,
+html.light .bg-indigo-950\/40,
+html.light .bg-indigo-900\/40,
+html.light .bg-indigo-900\/50 {
+  background-color: #eef2ff !important;
+  border-color: #c7d2fe !important;
+}
+
+html.light .border-indigo-900\/40,
+html.light .border-indigo-900\/50 {
+  border-color: #c7d2fe !important;
+}
+
+html.light .text-indigo-400 {
+  color: #4338ca !important;
+}
+
+/* Orange icons and badges */
+html.light .bg-orange-950,
+html.light .bg-orange-950\/30,
+html.light .bg-orange-950\/40,
+html.light .bg-orange-900\/40,
+html.light .bg-orange-900\/50 {
+  background-color: #fff7ed !important;
+  border-color: #fed7aa !important;
+}
+
+html.light .border-orange-900\/40,
+html.light .border-orange-900\/50 {
+  border-color: #fed7aa !important;
+}
+
+html.light .text-orange-400,
+html.light .text-orange-300 {
+  color: #c2410c !important;
+}
+
+html.light .text-orange-200 {
+  color: #9a3412 !important;
+}
+
+/* Red icons and badges */
+html.light .bg-red-950,
+html.light .bg-red-950\/30,
+html.light .bg-red-950\/40,
+html.light .bg-red-900\/40,
+html.light .bg-red-900\/50 {
+  background-color: #fef2f2 !important;
+  border-color: #fecaca !important;
+}
+
+html.light .border-red-900\/40,
+html.light .border-red-900\/50 {
+  border-color: #fecaca !important;
+}
+
+html.light .text-red-400 {
+  color: #b91c1c !important;
+}
+
+/* Active Payment Methods in Checkout Modal */
+html.light .border-emerald-600.bg-neutral-800 {
+  background-color: var(--accent-light-bg) !important;
+  border-color: var(--accent-border) !important;
+  color: var(--accent-text-light) !important;
+}
+
+html.light .border-orange-500.bg-neutral-800 {
+  background-color: #fff7ed !important;
+  border-color: #ea580c !important;
+  color: #c2410c !important;
+}
+
+html.light .border-purple-500.bg-neutral-800 {
+  background-color: #faf5ff !important;
+  border-color: #9333ea !important;
+  color: #7e22ce !important;
+}
+
+/* Quick restock button in inventory */
+html.light .bg-neutral-800.text-emerald-400 {
+  background-color: var(--accent-light-bg) !important;
+  border-color: var(--accent-light-border) !important;
+  color: var(--accent-text-light) !important;
+}
+
+html.light .bg-neutral-800.text-emerald-400:hover {
+  background-color: var(--accent-light-bg) !important;
+  border-color: var(--accent-border) !important;
+  color: var(--accent-text-light) !important;
+}
+
+/* Modal Backdrops & Overlays */
+html.light .bg-black\/80,
+html.light .bg-black\/40 {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+}
+
+/* Preserve thermal receipt paper */
+html.light .receipt-paper,
+html.light #printable-receipt {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+html.light .receipt-paper *,
+html.light #printable-receipt * {
+  color: #000000 !important;
+}
+
+/* Light mode scrollbar */
+html.light ::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ==========================================================================
+   Dynamic System-Wide Accent Color System
+   Preserves semantic colors (danger in red, warning in amber, success in green, info in blue)
+   ========================================================================== */
+
+:root {
+  --accent-primary: #10b981;
+  --accent-hover: #059669;
+  --accent-active: #047857;
+  --accent-text: #34d399;
+  --accent-text-light: #059669;
+  --accent-border: #10b981;
+  --accent-border-subtle: rgba(16, 185, 129, 0.4);
+  --accent-subtle: rgba(6, 78, 59, 0.4);
+  --accent-light-bg: #ecfdf5;
+  --accent-light-border: #a7f3d0;
+  --accent-shadow: rgba(6, 78, 59, 0.5);
+}
+
+[data-accent="emerald"] {
+  --accent-primary: #10b981;
+  --accent-hover: #059669;
+  --accent-active: #047857;
+  --accent-text: #34d399;
+  --accent-text-light: #059669;
+  --accent-border: #10b981;
+  --accent-border-subtle: rgba(16, 185, 129, 0.4);
+  --accent-subtle: rgba(6, 78, 59, 0.4);
+  --accent-light-bg: #ecfdf5;
+  --accent-light-border: #a7f3d0;
+  --accent-shadow: rgba(6, 78, 59, 0.5);
+}
+
+[data-accent="indigo"] {
+  --accent-primary: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-active: #4338ca;
+  --accent-text: #818cf8;
+  --accent-text-light: #4f46e5;
+  --accent-border: #6366f1;
+  --accent-border-subtle: rgba(99, 102, 241, 0.4);
+  --accent-subtle: rgba(49, 46, 129, 0.45);
+  --accent-light-bg: #eef2ff;
+  --accent-light-border: #c7d2fe;
+  --accent-shadow: rgba(49, 46, 129, 0.5);
+}
+
+[data-accent="blue"] {
+  --accent-primary: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-active: #1d4ed8;
+  --accent-text: #60a5fa;
+  --accent-text-light: #2563eb;
+  --accent-border: #3b82f6;
+  --accent-border-subtle: rgba(59, 130, 246, 0.4);
+  --accent-subtle: rgba(30, 58, 138, 0.45);
+  --accent-light-bg: #eff6ff;
+  --accent-light-border: #bfdbfe;
+  --accent-shadow: rgba(30, 58, 138, 0.5);
+}
+
+[data-accent="purple"] {
+  --accent-primary: #a855f7;
+  --accent-hover: #9333ea;
+  --accent-active: #7e22ce;
+  --accent-text: #c084fc;
+  --accent-text-light: #9333ea;
+  --accent-border: #a855f7;
+  --accent-border-subtle: rgba(168, 85, 247, 0.4);
+  --accent-subtle: rgba(88, 28, 135, 0.45);
+  --accent-light-bg: #faf5ff;
+  --accent-light-border: #e9d5ff;
+  --accent-shadow: rgba(88, 28, 135, 0.5);
+}
+
+[data-accent="teal"] {
+  --accent-primary: #14b8a6;
+  --accent-hover: #0d9488;
+  --accent-active: #0f766e;
+  --accent-text: #2dd4bf;
+  --accent-text-light: #0d9488;
+  --accent-border: #14b8a6;
+  --accent-border-subtle: rgba(20, 184, 166, 0.4);
+  --accent-subtle: rgba(19, 78, 74, 0.45);
+  --accent-light-bg: #f0fdfa;
+  --accent-light-border: #99f6e4;
+  --accent-shadow: rgba(19, 78, 74, 0.5);
+}
+
+[data-accent="rose"] {
+  --accent-primary: #f43f5e;
+  --accent-hover: #e11d48;
+  --accent-active: #be123c;
+  --accent-text: #fb7185;
+  --accent-text-light: #e11d48;
+  --accent-border: #f43f5e;
+  --accent-border-subtle: rgba(244, 63, 94, 0.4);
+  --accent-subtle: rgba(136, 19, 55, 0.45);
+  --accent-light-bg: #fff1f2;
+  --accent-light-border: #fecdd3;
+  --accent-shadow: rgba(136, 19, 55, 0.5);
+}
+
+[data-accent="amber"] {
+  --accent-primary: #f59e0b;
+  --accent-hover: #d97706;
+  --accent-active: #b45309;
+  --accent-text: #fbbf24;
+  --accent-text-light: #d97706;
+  --accent-border: #f59e0b;
+  --accent-border-subtle: rgba(245, 158, 11, 0.4);
+  --accent-subtle: rgba(120, 53, 15, 0.45);
+  --accent-light-bg: #fffbeb;
+  --accent-light-border: #fde68a;
+  --accent-shadow: rgba(120, 53, 15, 0.5);
+}
+
+[data-accent="orange"] {
+  --accent-primary: #f97316;
+  --accent-hover: #ea580c;
+  --accent-active: #c2410c;
+  --accent-text: #fb923c;
+  --accent-text-light: #ea580c;
+  --accent-border: #f97316;
+  --accent-border-subtle: rgba(249, 115, 22, 0.4);
+  --accent-subtle: rgba(124, 45, 18, 0.45);
+  --accent-light-bg: #fff7ed;
+  --accent-light-border: #fed7aa;
+  --accent-shadow: rgba(124, 45, 18, 0.5);
+}
+
+/* Global Dynamic Accent Class Rules applied across ALL buttons and elements */
+[data-accent] .bg-emerald-600,
+[data-accent] .bg-emerald-500,
+[data-accent] .bg-accent {
+  background-color: var(--accent-primary) !important;
+  color: #ffffff !important;
+}
+
+[data-accent] .hover\:bg-emerald-500:hover,
+[data-accent] .hover\:bg-emerald-600:hover,
+[data-accent] .hover\:bg-accent:hover {
+  background-color: var(--accent-hover) !important;
+  color: #ffffff !important;
+}
+
+[data-accent] .text-emerald-400,
+[data-accent] .text-emerald-500,
+[data-accent] .text-emerald-300,
+[data-accent] .text-accent {
+  color: var(--accent-text) !important;
+}
+
+[data-accent] .hover\:text-emerald-300:hover,
+[data-accent] .hover\:text-emerald-400:hover,
+[data-accent] .hover\:text-accent:hover {
+  color: var(--accent-text) !important;
+}
+
+[data-accent] .border-emerald-500,
+[data-accent] .border-emerald-600,
+[data-accent] .border-accent,
+[data-accent] .focus\:border-emerald-500:focus,
+[data-accent] .focus\:border-emerald-600:focus {
+  border-color: var(--accent-border) !important;
+}
+
+[data-accent] .hover\:border-emerald-500:hover,
+[data-accent] .hover\:border-emerald-600:hover,
+[data-accent] .hover\:border-emerald-500\/30:hover,
+[data-accent] .hover\:border-emerald-500\/40:hover,
+[data-accent] .hover\:border-emerald-500\/50:hover,
+[data-accent] .hover\:border-emerald-500\/60:hover,
+[data-accent] .hover\:border-emerald-600\/70:hover,
+[data-accent] .hover\:border-emerald-600\/80:hover {
+  border-color: var(--accent-border) !important;
+}
+
+[data-accent] .bg-emerald-950\/40,
+[data-accent] .bg-emerald-950\/50,
+[data-accent] .bg-emerald-950\/60,
+[data-accent] .bg-emerald-600\/10,
+[data-accent] .bg-emerald-600\/20,
+[data-accent] .bg-accent-subtle {
+  background-color: var(--accent-subtle) !important;
+}
+
+[data-accent] .border-emerald-900\/50,
+[data-accent] .border-emerald-800\/60,
+[data-accent] .border-emerald-800\/80,
+[data-accent] .border-emerald-500\/30,
+[data-accent] .border-emerald-500\/40,
+[data-accent] .border-emerald-500\/50 {
+  border-color: var(--accent-border-subtle) !important;
+}
+
+[data-accent] .shadow-emerald-950\/40,
+[data-accent] .shadow-emerald-950\/50 {
+  box-shadow: 0 10px 15px -3px var(--accent-shadow) !important;
+}
+
+[data-accent] .ring-emerald-400,
+[data-accent] .ring-emerald-500,
+[data-accent] .ring-emerald-400\/60,
+[data-accent] .ring-emerald-500\/30,
+[data-accent] .ring-emerald-500\/40,
+[data-accent] .ring-emerald-500\/50 {
+  --tw-ring-color: var(--accent-border) !important;
+}
+
+/* ==========================================================================
+   Light Mode Dynamic Accent Overrides (Buttons, Badges, Borders, Text)
+   ========================================================================== */
+
+/* Primary buttons in light mode (must strictly inherit dynamic accent) */
+html.light .bg-emerald-600,
+html.light .bg-emerald-500,
+html.light .bg-accent,
+html.light button.bg-emerald-600,
+html.light button.bg-emerald-500,
+html.light button.bg-accent,
+html.light [data-accent] .bg-emerald-600,
+html.light [data-accent] .bg-emerald-500,
+html.light [data-accent] .bg-accent,
+html.light [data-accent] button.bg-emerald-600,
+html.light [data-accent] button.bg-emerald-500,
+html.light [data-accent] button.bg-accent,
+html.light #save-settings-btn,
+html.light #save-settings-submit-btn,
+html.light #checkout-ticket-btn,
+html.light #confirm-checkout-btn,
+html.light #new-sale-close-btn,
+html.light #receipt-print-btn,
+html.light #add-product-btn {
+  background-color: var(--accent-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-hover) !important;
+}
+
+/* Ensure button text and icons remain crisp white in light mode */
+html.light .bg-emerald-600 *,
+html.light .bg-emerald-500 *,
+html.light .bg-accent *,
+html.light button.bg-emerald-600 *,
+html.light button.bg-emerald-500 *,
+html.light button.bg-accent *,
+html.light [data-accent] .bg-emerald-600 *,
+html.light [data-accent] .bg-emerald-500 *,
+html.light [data-accent] .bg-accent *,
+html.light [data-accent] button.bg-emerald-600 *,
+html.light [data-accent] button.bg-emerald-500 *,
+html.light [data-accent] button.bg-accent *,
+html.light #save-settings-btn *,
+html.light #save-settings-submit-btn *,
+html.light #checkout-ticket-btn *,
+html.light #confirm-checkout-btn *,
+html.light #new-sale-close-btn *,
+html.light #receipt-print-btn *,
+html.light #add-product-btn * {
+  color: #ffffff !important;
+}
+
+/* Hover state for primary buttons in light mode */
+html.light .hover\:bg-emerald-500:hover,
+html.light .hover\:bg-emerald-600:hover,
+html.light .hover\:bg-accent:hover,
+html.light button.bg-emerald-600:hover,
+html.light button.bg-emerald-500:hover,
+html.light button.bg-accent:hover,
+html.light [data-accent] .hover\:bg-emerald-500:hover,
+html.light [data-accent] .hover\:bg-emerald-600:hover,
+html.light [data-accent] .hover\:bg-accent:hover,
+html.light [data-accent] button.bg-emerald-600:hover,
+html.light [data-accent] button.bg-emerald-500:hover,
+html.light [data-accent] button.bg-accent:hover,
+html.light #save-settings-btn:hover,
+html.light #save-settings-submit-btn:hover,
+html.light #checkout-ticket-btn:hover,
+html.light #confirm-checkout-btn:hover,
+html.light #new-sale-close-btn:hover,
+html.light #receipt-print-btn:hover,
+html.light #add-product-btn:hover {
+  background-color: var(--accent-hover) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-active) !important;
+}
+
+/* Text and icon accents in light mode */
+html.light .text-emerald-400,
+html.light .text-emerald-500,
+html.light .text-emerald-300,
+html.light .text-accent,
+html.light[data-accent] .text-emerald-400,
+html.light[data-accent] .text-emerald-500,
+html.light[data-accent] .text-emerald-300,
+html.light[data-accent] .text-accent {
+  color: var(--accent-text-light) !important;
+}
+
+/* Accent badges and subtle containers in light mode */
+html.light .bg-emerald-950\/20,
+html.light .bg-emerald-950\/30,
+html.light .bg-emerald-950\/40,
+html.light .bg-emerald-950\/50,
+html.light .bg-emerald-950\/60,
+html.light .bg-emerald-600\/10,
+html.light .bg-emerald-600\/20,
+html.light[data-accent] .bg-emerald-950\/20,
+html.light[data-accent] .bg-emerald-950\/30,
+html.light[data-accent] .bg-emerald-950\/40,
+html.light[data-accent] .bg-emerald-950\/50,
+html.light[data-accent] .bg-emerald-950\/60,
+html.light[data-accent] .bg-emerald-600\/10,
+html.light[data-accent] .bg-emerald-600\/20 {
+  background-color: var(--accent-light-bg) !important;
+}
+
+/* Accent borders in light mode */
+html.light .border-emerald-900\/30,
+html.light .border-emerald-900\/40,
+html.light .border-emerald-900\/50,
+html.light .border-emerald-800\/50,
+html.light .border-emerald-800\/60,
+html.light .border-emerald-800\/80,
+html.light .border-emerald-500\/30,
+html.light .border-emerald-500\/40,
+html.light .border-emerald-500\/50,
+html.light[data-accent] .border-emerald-900\/30,
+html.light[data-accent] .border-emerald-900\/40,
+html.light[data-accent] .border-emerald-900\/50,
+html.light[data-accent] .border-emerald-800\/50,
+html.light[data-accent] .border-emerald-800\/60,
+html.light[data-accent] .border-emerald-800\/80,
+html.light[data-accent] .border-emerald-500\/30,
+html.light[data-accent] .border-emerald-500\/40,
+html.light[data-accent] .border-emerald-500\/50 {
+  border-color: var(--accent-light-border) !important;
+}
+
+/* Ring colors in light mode */
+html.light [data-accent] .ring-emerald-500,
+html.light [data-accent] .ring-emerald-500\/40,
+html.light [data-accent] .ring-emerald-500\/50,
+html.light .ring-emerald-500,
+html.light .ring-emerald-500\/40,
+html.light .ring-emerald-500\/50 {
+  --tw-ring-color: var(--accent-border) !important;
+}
+
+/* ==========================================================================
+   Accent Color Selection Card in Light Mode
+   ========================================================================== */
+html.light #accent-color-section {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light #accent-color-section button[id^="accent-swatch-"] {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+html.light #accent-color-section button[id^="accent-swatch-"]:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light #accent-color-section button[id^="accent-swatch-"] span.font-semibold {
+  color: #1e293b !important;
+}
+
+html.light #accent-color-section button[id^="accent-swatch-"] span.font-mono {
+  color: #64748b !important;
+}
+
+html.light #accent-color-section button[id^="accent-swatch-"].font-semibold,
+html.light #accent-color-section button[id^="accent-swatch-"][class*="bg-[var(--accent-light-bg)]"],
+html.light #accent-color-section button[id^="accent-swatch-"][class*="border-[var(--accent-border)]"] {
+  background-color: var(--accent-light-bg) !important;
+  border-color: var(--accent-border) !important;
+  --tw-ring-color: var(--accent-border) !important;
+}
+
+html.light #accent-color-section button[id^="accent-swatch-"][class*="bg-[var(--accent-light-bg)]"] span.font-semibold {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+
+
