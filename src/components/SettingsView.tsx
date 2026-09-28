@@ -289,11 +289,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     try {
       const res = await dbService.syncFromSqlite();
       if (res.success) {
-        setSqliteSyncMsg(language === 'es' ? '¡Sincronizado con SQLite con éxito!' : 'Successfully synchronized with SQLite!');
+        setSqliteSyncMsg(t.settings.sqliteSuccess);
         await loadSqliteStats();
         onTriggerSync();
       } else {
-        setSqliteSyncMsg(res.error || (language === 'es' ? 'Error al sincronizar' : 'Sync failed'));
+        setSqliteSyncMsg(res.error || t.settings.sqliteError);
       }
     } catch (err: any) {
       setSqliteSyncMsg(err.message);
@@ -371,11 +371,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               <Save className="w-4 h-4 text-white" />
             )}
             <span className="text-white">
-              {savedSuccessMsg
-                ? language === 'es'
-                  ? '¡Guardado!'
-                  : 'Saved!'
-                : t.settings.saveSettings}
+              {savedSuccessMsg ? t.settings.savedToast : t.settings.saveSettings}
             </span>
             {hasUnsavedChanges && !savedSuccessMsg && (
               <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse ml-0.5" />
@@ -514,7 +510,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-white uppercase tracking-wider">
-                      {language === 'es' ? 'Monedas del Sistema (Dólares y Bolívares)' : 'System Currencies (USD & Bolivars)'}
+                      {t.settings.systemCurrenciesTitle}
                     </h3>
                   </div>
                 </div>
@@ -554,9 +550,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                           <span>{t.settings.currencyUSD}</span>
                         </div>
                         <p className="text-[11px] text-neutral-500 mt-0.5">
-                          {language === 'es'
-                            ? 'Los precios base se guardan en USD ($) y se convierten a Bolívares en caja e inventario.'
-                            : 'Base prices are stored in USD ($) and converted to Bolivars in POS and inventory.'}
+                          {t.settings.usdDescription}
                         </p>
                       </div>
                     </div>
@@ -589,9 +583,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                           <span>{t.settings.currencyVES}</span>
                         </div>
                         <p className="text-[11px] text-neutral-500 mt-0.5">
-                          {language === 'es'
-                            ? 'Los precios base se guardan en Bs. y se convierten a Dólares en caja e inventario.'
-                            : 'Base prices are stored in Bs. and converted to USD in POS and inventory.'}
+                          {t.settings.vesDescription}
                         </p>
                       </div>
                     </div>
@@ -690,9 +682,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                               hour: '2-digit',
                               minute: '2-digit',
                             })
-                          : language === 'es'
-                          ? 'Recién configurada'
-                          : 'Just configured'}
+                          : t.settings.justConfigured}
                       </span>
                     </span>
                   </div>
@@ -719,8 +709,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                           }`}
                         >
                           {formData.exchangeRateAutoSync !== false
-                            ? (language === 'es' ? 'ACTIVADA' : 'ACTIVE')
-                            : (language === 'es' ? 'DESACTIVADA' : 'DISABLED')}
+                            ? t.settings.autoSyncActive
+                            : t.settings.autoSyncDisabled}
                         </span>
                       </div>
                       <p className="text-[11px] text-neutral-400 mt-0.5">
@@ -742,8 +732,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                     className="cursor-pointer focus:outline-none shrink-0 p-1"
                     title={
                       formData.exchangeRateAutoSync !== false
-                        ? (language === 'es' ? 'Desactivar sincronización automática' : 'Disable automatic synchronization')
-                        : (language === 'es' ? 'Activar sincronización automática' : 'Enable automatic synchronization')
+                        ? t.settings.disableAutoSync
+                        : t.settings.enableAutoSync
                     }
                   >
                     <div
@@ -890,11 +880,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   <Save className="w-4 h-4 text-white" />
                 )}
                 <span className="text-white">
-                  {savedSuccessMsg
-                    ? language === 'es'
-                      ? '¡Ajustes Guardados!'
-                      : 'Settings Saved!'
-                    : t.settings.saveSettings}
+                  {savedSuccessMsg ? t.settings.savedToast : t.settings.saveSettings}
                 </span>
                 {hasUnsavedChanges && !savedSuccessMsg && (
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse ml-0.5" />
@@ -934,7 +920,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                           : 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60'
                       }`}
                     >
-                      {categories.length} {language === 'es' ? 'categorías' : 'categories'}
+                      {categories.length} {t.settings.totalCategories}
                     </span>
                   </h2>
                 </div>
@@ -1036,7 +1022,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       : 'bg-neutral-900/60 border-neutral-800 text-neutral-500'
                   }`}
                 >
-                  {language === 'es' ? 'No se encontraron categorías.' : 'No categories found.'}
+                  {t.settings.noCategoriesFound}
                 </div>
               ) : (
                 filteredCategories.map((cat) => {
@@ -1238,9 +1224,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       <div className="flex items-center gap-2 font-bold">
                         <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />
                         <span>
-                          {language === 'es'
-                            ? `Esta categoría contiene ${deletingCategory.productCount} producto(s) en catálogo.`
-                            : `This category contains ${deletingCategory.productCount} product(s) in catalog.`}
+                          {t.settings.categoryContainsProducts.replace('{count}', String(deletingCategory.productCount))}
                         </span>
                       </div>
                       <p className="text-[11px] opacity-90 leading-relaxed">
@@ -1272,9 +1256,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                     </div>
                   ) : (
                     <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                      {language === 'es'
-                        ? 'No hay productos asociados a esta categoría. Se eliminará de inmediato.'
-                        : 'There are no products assigned to this category. It will be removed immediately.'}
+                      {t.settings.noProductsInCategory}
                     </p>
                   )}
 
@@ -1298,9 +1280,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       className="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-colors cursor-pointer shadow-sm"
                     >
                       {deletingCategory.productCount > 0
-                        ? language === 'es'
-                          ? 'Reasignar y Eliminar'
-                          : 'Reassign & Delete'
+                        ? t.settings.reassignAndDelete
                         : t.common.delete}
                     </button>
                   </div>
@@ -1482,12 +1462,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   <div className="text-left">
                     <div className="font-semibold">
                       {isOnline
-                        ? language === 'es'
-                          ? 'Simular Desconexión (Modo Offline)'
-                          : 'Simulate Offline Mode'
-                        : language === 'es'
-                        ? 'Reconectar a la Red (Modo Online)'
-                        : 'Restore Online Connection'}
+                        ? t.settings.simulateOffline
+                        : t.settings.restoreOnline}
                     </div>
                     <div className="text-[10px] text-neutral-400">
                       {t.settings.toggleOfflineDesc}
@@ -1523,7 +1499,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                     : 'bg-emerald-950/60 text-emerald-400 border border-emerald-900/60'
                 }`}
               >
-                {pendingItems.length} {language === 'es' ? 'en cola' : 'queued'}
+                {pendingItems.length} {t.settings.inQueue}
               </span>
             </div>
 
@@ -1562,9 +1538,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <div className="p-2.5 rounded-lg bg-amber-950/30 border border-amber-900/40 flex items-center gap-2 text-amber-300 text-[11px]">
                   <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                   <span>
-                    {language === 'es'
-                      ? 'Terminal sin conexión: los datos se mantienen a salvo en disco local hasta que se reanude el servicio.'
-                      : 'Terminal offline: changes safely buffered in local database until connection resumes.'}
+                    {t.settings.offlineNoticeInSettings}
                   </span>
                 </div>
               )}
@@ -1582,7 +1556,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                     onClick={onClearSyncedQueue}
                     className="text-[10px] text-neutral-400 hover:text-neutral-200 underline cursor-pointer"
                   >
-                    {language === 'es' ? 'Limpiar historial de sincronización' : 'Clear synced history'}
+                    {t.settings.clearSyncHistory}
                   </button>
                 )}
               </div>
@@ -1644,7 +1618,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               <div className="flex items-center gap-2">
                 <HardDrive className="w-4 h-4 text-emerald-400" />
                 <h2 className="text-sm font-bold text-white tracking-wide uppercase">
-                  {language === 'es' ? 'Base de Datos Local SQLite' : 'SQLite Local Database'}
+                  {t.settings.sqliteDbSection}
                 </h2>
               </div>
               <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-900/60 flex items-center gap-1.5">
@@ -1654,9 +1628,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             </div>
 
             <p className="text-xs text-neutral-400 leading-relaxed">
-              {language === 'es'
-                ? 'Todos los productos, ventas, clientes, proveedores y movimientos de cuentas persisten en una base de datos local SQLite almacenada en disco.'
-                : 'All products, sales, customers, vendors, and ledger accounts persist in a local SQLite database file stored on disk.'}
+              {t.settings.sqliteDbDesc}
             </p>
 
             {/* SQLite File Info Box */}
@@ -1664,7 +1636,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               <div className="flex items-center justify-between text-xs">
                 <span className="text-neutral-400 flex items-center gap-1.5">
                   <Database className="w-3.5 h-3.5 text-emerald-400" />
-                  {language === 'es' ? 'Motor de Base de Datos' : 'Database Engine'}
+                  {t.settings.dbEngine}
                 </span>
                 <span className="font-mono text-[11px] text-neutral-200 font-semibold">
                   SQLite 3 ({sqliteStats?.engine || 'sql.js'})
@@ -1674,7 +1646,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               <div className="flex items-center justify-between text-xs">
                 <span className="text-neutral-400 flex items-center gap-1.5">
                   <FileCode className="w-3.5 h-3.5 text-neutral-400" />
-                  {language === 'es' ? 'Archivo en Disco' : 'Disk Location'}
+                  {t.settings.diskLocation}
                 </span>
                 <span className="font-mono text-[11px] text-neutral-300">
                   {sqliteStats?.path || 'data/tubodeguita.sqlite'}
@@ -1684,7 +1656,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               <div className="flex items-center justify-between text-xs">
                 <span className="text-neutral-400 flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-neutral-400" />
-                  {language === 'es' ? 'Tamaño del Archivo' : 'File Size'}
+                  {t.settings.fileSize}
                 </span>
                 <span className="font-mono text-[11px] text-emerald-400 font-bold">
                   {sqliteStats?.sizeFormatted || (loadingStats ? '...' : '240 KB')}
@@ -1695,23 +1667,23 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             {/* Table Records Grid */}
             <div className="space-y-2">
               <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider block">
-                {language === 'es' ? 'Registros en Tablas SQLite' : 'SQLite Table Records'}
+                {t.settings.tableRecords}
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
                 <div className="p-2 rounded-lg bg-neutral-900/70 border border-neutral-800">
-                  <div className="text-[10px] text-neutral-400 uppercase">{language === 'es' ? 'Productos' : 'Products'}</div>
+                  <div className="text-[10px] text-neutral-400 uppercase">{t.settings.recordsProducts}</div>
                   <div className="text-sm font-bold text-white mt-0.5">{sqliteStats?.tableCounts?.products ?? '...'}</div>
                 </div>
                 <div className="p-2 rounded-lg bg-neutral-900/70 border border-neutral-800">
-                  <div className="text-[10px] text-neutral-400 uppercase">{language === 'es' ? 'Ventas' : 'Sales'}</div>
+                  <div className="text-[10px] text-neutral-400 uppercase">{t.settings.recordsSales}</div>
                   <div className="text-sm font-bold text-emerald-400 mt-0.5">{sqliteStats?.tableCounts?.sales ?? '...'}</div>
                 </div>
                 <div className="p-2 rounded-lg bg-neutral-900/70 border border-neutral-800">
-                  <div className="text-[10px] text-neutral-400 uppercase">{language === 'es' ? 'Clientes' : 'Customers'}</div>
+                  <div className="text-[10px] text-neutral-400 uppercase">{t.settings.recordsCustomers}</div>
                   <div className="text-sm font-bold text-blue-400 mt-0.5">{sqliteStats?.tableCounts?.customers ?? '...'}</div>
                 </div>
                 <div className="p-2 rounded-lg bg-neutral-900/70 border border-neutral-800">
-                  <div className="text-[10px] text-neutral-400 uppercase">{language === 'es' ? 'Proveedores' : 'Vendors'}</div>
+                  <div className="text-[10px] text-neutral-400 uppercase">{t.settings.recordsVendors}</div>
                   <div className="text-sm font-bold text-purple-400 mt-0.5">{sqliteStats?.tableCounts?.vendors ?? '...'}</div>
                 </div>
               </div>
@@ -1735,7 +1707,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors cursor-pointer shadow-xs disabled:opacity-50"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isSyncingSqlite ? 'animate-spin' : ''}`} />
-                <span>{isSyncingSqlite ? (language === 'es' ? 'Sincronizando...' : 'Syncing...') : (language === 'es' ? 'Sincronizar SQLite' : 'Sync SQLite')}</span>
+                <span>{isSyncingSqlite ? t.settings.syncingSqliteBtn : t.settings.syncSqliteBtn}</span>
               </button>
 
               <button
@@ -1771,10 +1743,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               >
                 <span className="font-semibold flex items-center gap-1.5">
                   <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-                  {language === 'es' ? 'Consola de Consultas SQL (Avanzado)' : 'SQL Query Console (Advanced)'}
+                  {t.settings.sqlConsoleTitle}
                 </span>
                 <span className="text-[10px] text-neutral-500 font-mono">
-                  {showQueryConsole ? (language === 'es' ? 'Ocultar ▲' : 'Hide ▲') : (language === 'es' ? 'Abrir ▼' : 'Open ▼')}
+                  {showQueryConsole ? t.settings.hideConsole : t.settings.openConsole}
                 </span>
               </button>
 
@@ -1834,7 +1806,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold cursor-pointer shadow-xs"
                     >
                       <Play className={`w-3 h-3 ${queryRunning ? 'animate-pulse' : ''}`} />
-                      <span>{queryRunning ? (language === 'es' ? 'Ejecutando...' : 'Running...') : (language === 'es' ? 'Ejecutar SQL' : 'Run SQL')}</span>
+                      <span>{queryRunning ? t.settings.runningSql : t.settings.runSql}</span>
                     </button>
                   </div>
 
@@ -1846,7 +1818,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       ) : queryResult.columns && queryResult.values ? (
                         <div className="space-y-1">
                           <div className="text-[10px] text-neutral-400 mb-1">
-                            {queryResult.rowCount} {language === 'es' ? 'filas encontradas' : 'rows returned'}
+                            {queryResult.rowCount} {t.settings.rowsFound}
                           </div>
                           <table className="w-full text-left border-collapse text-[11px]">
                             <thead>

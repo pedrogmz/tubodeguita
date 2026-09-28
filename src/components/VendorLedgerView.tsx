@@ -174,7 +174,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
     if (!vendorPayTarget) return;
     const amount = parseFloat(vendorPayAmount);
     if (isNaN(amount) || amount <= 0) {
-      alert(language === 'es' ? 'Por favor ingrese un monto de desembolso válido.' : 'Please enter a valid payment amount.');
+      alert(t.alerts.validPaymentRequired);
       return;
     }
 
@@ -201,7 +201,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
     if (!vendorBillTarget) return;
     const amount = parseFloat(billAmount);
     if (isNaN(amount) || amount <= 0) {
-      alert(language === 'es' ? 'Por favor ingrese un monto de factura válido.' : 'Please enter a valid invoice amount.');
+      alert(t.alerts.validInvoiceRequired);
       return;
     }
 
@@ -307,9 +307,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
             {formatMoney(vendorStats.totalPayable)}
           </div>
           <span className={`text-[10px] mt-0.5 block ${isLight ? 'text-slate-400' : 'text-neutral-500'}`}>
-            {language === 'es'
-              ? `En ${vendorStats.pendingVendors} proveedores con facturas por pagar`
-              : `Across ${vendorStats.pendingVendors} suppliers with pending bills`}
+            {`${vendorStats.pendingVendors} ${t.ledger.accountsWithDebtCount}`}
           </span>
         </div>
 
@@ -319,15 +317,13 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
           }`}
         >
           <span className={`text-[11px] font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-            {language === 'es' ? 'Proveedores con Saldo' : 'Suppliers with Balance'}
+            {t.ledger.suppliersWithBalanceCount}
           </span>
           <div className="text-2xl font-bold font-mono text-orange-500 mt-1">
             {vendorStats.pendingVendors}
           </div>
           <span className={`text-[10px] mt-0.5 block ${isLight ? 'text-slate-400' : 'text-neutral-500'}`}>
-            {language === 'es'
-              ? 'Con facturas comerciales pendientes'
-              : 'Accounts with pending invoices'}
+            {t.ledger.openBillsNotice}
           </span>
         </div>
 
@@ -343,7 +339,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
             {vendorStats.activeVendors}
           </div>
           <span className={`text-[10px] mt-0.5 block text-emerald-500 font-medium`}>
-            {language === 'es' ? 'Proveedores y distribuidores activos' : 'Registered supplier accounts'}
+            {t.ledger.activeSuppliersCount}
           </span>
         </div>
       </div>
@@ -422,7 +418,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                 <div className="flex items-center justify-between text-xs">
                   <div>
                     <span className={`text-[10px] uppercase font-semibold block ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                      {language === 'es' ? 'Deuda Actual (Por Pagar)' : 'Current Debt (Payable)'}
+                      {t.ledger.outstandingBill}
                     </span>
                     <div className="flex items-baseline gap-1.5">
                       <span className={`font-mono font-bold text-sm ${v.outstandingPayable > 0 ? 'text-orange-500' : (isLight ? 'text-slate-800' : 'text-white')}`}>
@@ -459,11 +455,11 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                   <div className="flex items-center justify-between text-[10px]">
                     <span className={v.outstandingPayable > 0 ? 'text-orange-500 font-medium' : 'text-emerald-500 font-medium'}>
                       {v.outstandingPayable > 0
-                        ? language === 'es' ? 'Facturas pendientes por liquidar' : 'Outstanding bills pending payment'
-                        : language === 'es' ? 'Cuenta al día (Sin saldo pendiente)' : 'Account up to date (Zero balance)'}
+                        ? t.ledger.openBillsNotice
+                        : t.ledger.zeroBalanceNotice}
                     </span>
                     <span className={isLight ? 'text-slate-400' : 'text-neutral-500'}>
-                      {language === 'es' ? 'Condiciones Comerciales' : 'Commercial Terms'}
+                      {t.ledger.terms}
                     </span>
                   </div>
                 </div>
@@ -478,7 +474,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
             >
               <div className={`text-[11px] font-mono ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
                 {vendorLedgers.filter((l) => l.vendorId === v.id).length}{' '}
-                {language === 'es' ? 'movimientos' : 'records'}
+                {t.ledger.recordsCount}
               </div>
 
               <div className="flex items-center gap-1.5">
@@ -775,23 +771,23 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                   }`}
                 >
                   <option value="Bank Wire / ACH">
-                    {language === 'es' ? 'Transferencia Bancaria / ACH' : 'Bank Wire / ACH'}
+                    {t.ledger.bankTransferACH}
                   </option>
                   <option value="Company Check">
-                    {language === 'es' ? 'Cheque Comercial' : 'Company Check'}
+                    {t.ledger.companyCheck}
                   </option>
                   <option value="Corporate Card">
-                    {language === 'es' ? 'Tarjeta Corporativa' : 'Corporate Card'}
+                    {t.ledger.corporateCard}
                   </option>
                   <option value="Store Cash">
-                    {language === 'es' ? 'Efectivo de Caja' : 'Store Cash Register'}
+                    {t.ledger.registerCashPayment}
                   </option>
                 </select>
               </div>
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {language === 'es' ? 'Referencia de Pago / N° Cheque' : 'Payment Reference / Check #'}
+                  {t.ledger.paymentRefNumber}
                 </label>
                 <input
                   type="text"
@@ -923,7 +919,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {language === 'es' ? 'Artículos / Descripción' : 'Items / Description'}
+                  {t.ledger.itemsSuppliedDesc}
                 </label>
                 <input
                   type="text"
@@ -989,7 +985,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                     {t.ledger.newVendorModalTitle}
                   </h3>
                   <p className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                    {language === 'es' ? 'Registrar nuevo proveedor y condiciones' : 'Register new vendor and terms'}
+                    {t.ledger.registerVendorDescription}
                   </p>
                 </div>
               </div>
@@ -1094,7 +1090,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                     <option value="Net 15">Net 15 Days</option>
                     <option value="Net 30">Net 30 Days</option>
                     <option value="COD (Cash on Delivery)">
-                      {language === 'es' ? 'Pago Contra Entrega (COD)' : 'COD (Cash on Delivery)'}
+                      {t.ledger.codTerms}
                     </option>
                   </select>
                 </div>
@@ -1102,7 +1098,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {language === 'es' ? `Saldo Inicial por Pagar (${currencySymbol})` : `Initial Outstanding Payable (${currencySymbol})`}
+                  {`${t.ledger.initialPayableLabel} (${currencySymbol})`}
                 </label>
                 <input
                   type="number"
@@ -1185,7 +1181,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                         : 'bg-emerald-950/40 text-emerald-400 border border-emerald-900/50'
                     }`}>
                       {statementVendor.outstandingPayable > 0
-                        ? `${language === 'es' ? 'Por Pagar' : 'Payable'}: ${formatMoney(statementVendor.outstandingPayable)}`
+                        ? `${t.ledger.outstandingBill}: ${formatMoney(statementVendor.outstandingPayable)}`
                         : t.ledger.zeroBalance}
                     </span>
                   </div>
@@ -1201,7 +1197,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                 className={`p-1 rounded-lg transition-colors cursor-pointer ${
                   isLight ? 'text-slate-400 hover:text-slate-700' : 'text-neutral-400 hover:text-white'
                 }`}
-                title={language === 'es' ? 'Cerrar' : 'Close'}
+                title={t.common.close}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1229,7 +1225,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
               </div>
               <div>
                 <span className={`text-[10px] uppercase font-semibold block ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                  {language === 'es' ? 'Rubro Comercial' : 'Category'}
+                  {t.ledger.categorySupplied}
                 </span>
                 <span className="text-sm font-bold mt-0.5 block truncate text-emerald-500">
                   {statementVendor.categorySupplied}
@@ -1240,11 +1236,11 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
             {/* Transactions Header & List */}
             <div className="flex items-center justify-between pb-2 shrink-0">
               <h4 className={`text-xs font-bold uppercase tracking-wider ${isLight ? 'text-slate-700' : 'text-neutral-300'}`}>
-                {language === 'es' ? 'Registro de Movimientos' : 'Transaction History'}
+                {t.ledger.transactionHistory}
               </h4>
               <span className={`text-[11px] font-mono ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
                 {vendorLedgers.filter((l) => l.vendorId === statementVendor.id).length}{' '}
-                {language === 'es' ? 'movimientos' : 'records'}
+                {t.ledger.recordsCount}
               </span>
             </div>
 
@@ -1289,12 +1285,8 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                         <div>
                           <div className={`font-semibold ${isLight ? 'text-slate-800' : 'text-white'}`}>
                             {entry.type === 'supply_invoice'
-                              ? language === 'es'
-                                ? 'Factura / Entrega de Suministros'
-                                : 'Supply Delivery Invoice'
-                              : language === 'es'
-                              ? 'Pago Desembolsado'
-                              : 'Payment Disbursed'}
+                              ? t.ledger.supplyInvoice
+                              : t.ledger.paymentDisbursed}
                           </div>
                           <div className={`text-[11px] font-mono mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
                             {new Date(entry.timestamp).toLocaleString()} • Ref: {entry.referenceInvoiceNumber}
@@ -1319,7 +1311,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                             : `-${formatMoney(entry.amount)}`}
                         </span>
                         <span className={`block text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>
-                          {language === 'es' ? 'Saldo' : 'Bal'}: <strong className={isLight ? 'text-slate-700' : 'text-neutral-300'}>{formatMoney(entry.balanceAfter)}</strong>
+                          {t.ledger.balanceAfter}: <strong className={isLight ? 'text-slate-700' : 'text-neutral-300'}>{formatMoney(entry.balanceAfter)}</strong>
                         </span>
                       </div>
                     </div>
@@ -1341,7 +1333,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                     : 'border-neutral-700 text-neutral-300 hover:bg-neutral-800'
                 }`}
               >
-                {language === 'es' ? 'Cerrar' : 'Close'}
+                {t.common.close}
               </button>
 
               <div className="flex items-center gap-2">
@@ -1537,10 +1529,10 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                     <option value="Net 30">Net 30 Days</option>
                     <option value="Net 60">Net 60 Days</option>
                     <option value="Due on Receipt">
-                      {language === 'es' ? 'Pago Inmediato' : 'Due on Receipt'}
+                      {t.ledger.dueOnReceiptTerms}
                     </option>
                     <option value="COD (Cash on Delivery)">
-                      {language === 'es' ? 'Pago Contra Entrega (COD)' : 'COD (Cash on Delivery)'}
+                      {t.ledger.codTerms}
                     </option>
                   </select>
                 </div>
@@ -1548,7 +1540,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {t.ledger.email} ({language === 'es' ? 'Opcional' : 'Optional'})
+                  {t.ledger.email} ({t.ledger.optionalLabel})
                 </label>
                 <input
                   id="edit-vendor-email-input"
@@ -1565,7 +1557,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {language === 'es' ? 'Notas / Condiciones' : 'Notes / Terms'}
+                  {t.ledger.notesAndTermsLabel}
                 </label>
                 <input
                   id="edit-vendor-notes-input"
@@ -1686,9 +1678,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
               <div className="mt-3 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 shrink-0" />
                 <span>
-                  {language === 'es'
-                    ? `Atención: Este proveedor tiene un saldo pendiente de pagar de ${formatMoney(vendorToDelete.outstandingPayable)}.`
-                    : `Warning: This vendor currently has an unpaid balance of ${formatMoney(vendorToDelete.outstandingPayable)}.`}
+                  {`${t.ledger.vendorBalanceWarning} ${formatMoney(vendorToDelete.outstandingPayable)}.`}
                 </span>
               </div>
             )}
@@ -1718,7 +1708,7 @@ export const VendorLedgerView: React.FC<VendorLedgerViewProps> = ({
                 className="px-5 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-rose-950/50 cursor-pointer transition-colors flex items-center gap-1.5"
               >
                 <Trash2 className="w-4 h-4" />
-                <span>{isDeletingVendor ? (language === 'es' ? 'Eliminando...' : 'Deleting...') : t.ledger.deleteVendorConfirmBtn}</span>
+                <span>{isDeletingVendor ? t.ledger.deletingRecord : t.ledger.deleteVendorConfirmBtn}</span>
               </button>
             </div>
           </div>

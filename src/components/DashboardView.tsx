@@ -267,8 +267,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
                   <p className="text-[11px] text-neutral-400 mt-1">
                     {new Date(sale.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} •{' '}
-                    {sale.customerName ? `${language === 'es' ? 'Cliente' : 'Customer'}: ${sale.customerName}` : (language === 'es' ? 'Cliente Casual' : 'Walk-In')} •{' '}
-                    {sale.items.length} {sale.items.length === 1 ? (language === 'es' ? 'artículo' : 'item') : (language === 'es' ? 'artículos' : 'items')}
+                    {sale.customerName ? `${t.dashboard.customerPrefix}: ${sale.customerName}` : t.dashboard.walkInCustomer} •{' '}
+                    {sale.items.length} {sale.items.length === 1 ? t.dashboard.itemSingular : t.dashboard.itemsPlural}
                   </p>
                 </div>
 
@@ -277,7 +277,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     <span className="font-mono font-bold text-sm text-white block">
                       {formatMoney(sale.total)}
                     </span>
-                    <span className="text-[10px] text-neutral-500">{language === 'es' ? 'Impuesto' : 'Tax'}: {formatMoney(sale.taxTotal)}</span>
+                    <span className="text-[10px] text-neutral-500">{t.dashboard.taxLabel}: {formatMoney(sale.taxTotal)}</span>
                   </div>
 
                   <button
@@ -333,7 +333,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <div className="flex items-center justify-between p-2 rounded-lg bg-[#0D0D0D] border border-neutral-800">
                 <div className="flex items-center gap-2">
                   <Smartphone className="w-4 h-4 text-emerald-400" />
-                  <span className="font-medium text-neutral-300">{language === 'es' ? 'Pago Móvil' : 'Mobile Payment'}</span>
+                  <span className="font-medium text-neutral-300">{t.dashboard.mobilePaymentLabel}</span>
                 </div>
                 <span className="font-mono font-bold text-white">
                   {formatMoney(metrics.paymentBreakdown.pagoMovil)}

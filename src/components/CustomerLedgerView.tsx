@@ -104,7 +104,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
     if (!customerPayTarget) return;
     const amount = parseFloat(customerPayAmount);
     if (isNaN(amount) || amount <= 0) {
-      alert(language === 'es' ? 'Por favor ingrese un monto de pago válido.' : 'Please enter a valid payment amount.');
+      alert(t.alerts.validPaymentRequired);
       return;
     }
 
@@ -252,9 +252,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
             {formatMoney(customerStats.totalDebt)}
           </div>
           <span className={`text-[10px] mt-0.5 block ${isLight ? 'text-slate-400' : 'text-neutral-500'}`}>
-            {language === 'es'
-              ? `En ${customerStats.activeDebtors} cuentas con saldo pendiente`
-              : `Across ${customerStats.activeDebtors} accounts with open tabs`}
+            {customerStats.activeDebtors} {t.ledger.accountsWithDebtCount}
           </span>
         </div>
 
@@ -270,7 +268,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
             {formatMoney(customerStats.totalCredit)}
           </div>
           <span className={`text-[10px] mt-0.5 block ${isLight ? 'text-slate-400' : 'text-neutral-500'}`}>
-            {language === 'es' ? 'Saldos a favor disponibles' : 'Deposited customer balances'}
+            {t.ledger.totalStoreCredit}
           </span>
         </div>
 
@@ -286,7 +284,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
             {customers.length}
           </div>
           <span className={`text-[10px] mt-0.5 block ${isLight ? 'text-slate-400' : 'text-neutral-500'}`}>
-            {language === 'es' ? 'Cuentas locales activas' : 'Local ledger accounts'}
+            {t.ledger.activeCustomerLedgers}
           </span>
         </div>
       </div>
@@ -361,7 +359,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                   <div className="flex items-center justify-between text-xs">
                     <div>
                       <span className={`text-[10px] uppercase font-semibold block ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                        {language === 'es' ? 'Deuda Actual' : 'Current Debt'}
+                        {t.ledger.currentDebtBadge}
                       </span>
                       <span className={`font-mono font-bold ${currentDebt > 0 ? 'text-orange-500' : (isLight ? 'text-slate-800' : 'text-white')}`}>
                         {formatMoney(currentDebt)}
@@ -370,12 +368,12 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
 
                     <div className="text-right">
                       <span className={`text-[10px] uppercase font-semibold block ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                        {language === 'es' ? 'Crédito Disponible' : 'Available Credit'}
+                        {t.ledger.availableCreditBadge}
                       </span>
                       <span className={`font-mono font-bold ${isOverLimit ? 'text-red-500' : availableCredit > 0 ? 'text-emerald-500' : (isLight ? 'text-slate-600' : 'text-neutral-400')}`}>
                         {formatMoney(availableCredit)}
                         <span className="text-[10px] font-normal ml-1 opacity-90 font-sans">
-                          ({availablePercent}% {language === 'es' ? 'disp.' : 'avail.'})
+                          ({availablePercent}% {t.ledger.availAbbr})
                         </span>
                       </span>
                     </div>
@@ -400,16 +398,16 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                       <span className={isLight ? 'text-slate-400' : 'text-neutral-500'}>
                         {isOverLimit ? (
                           <span className="text-red-500 font-semibold">
-                            {language === 'es' ? `¡Límite excedido por ${formatMoney(currentDebt - creditLimit)}!` : `Exceeded by ${formatMoney(currentDebt - creditLimit)}!`}
+                            {`${t.ledger.limitExceededNotice} ${formatMoney(currentDebt - creditLimit)}!`}
                           </span>
                         ) : (
                           <span>
-                            {language === 'es' ? 'Usado:' : 'Used:'} <strong className="font-mono">{usedPercent}%</strong> {language === 'es' ? 'del límite' : 'of limit'}
+                            {t.ledger.usedLimitLabel} <strong className="font-mono">{usedPercent}%</strong> {t.ledger.ofLimitLabel}
                           </span>
                         )}
                       </span>
                       <span className={isLight ? 'text-slate-400' : 'text-neutral-500'}>
-                        {language === 'es' ? 'Límite total:' : 'Total limit:'} <strong className="font-mono">{formatMoney(creditLimit)}</strong>
+                        {t.ledger.totalLimitLabel} <strong className="font-mono">{formatMoney(creditLimit)}</strong>
                       </span>
                     </div>
                   </div>
@@ -424,7 +422,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
               >
                 <div className={`text-[11px] font-mono ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
                   {customerLedgers.filter((l) => l.customerId === c.id).length}{' '}
-                  {language === 'es' ? 'movimientos' : 'records'}
+                  {t.ledger.recordsCount}
                 </div>
 
                 <div className="flex items-center gap-1.5">
@@ -626,7 +624,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                         : 'bg-emerald-950/40 text-emerald-400 border-emerald-900/50'
                     }`}>
                       {statementCustomer.currentDebt > 0
-                        ? `${language === 'es' ? 'Deuda' : 'Owes'}: ${formatMoney(statementCustomer.currentDebt)}`
+                        ? `${t.register.customerDebt}: ${formatMoney(statementCustomer.currentDebt)}`
                         : t.ledger.zeroBalance}
                     </span>
                   </div>
@@ -641,7 +639,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                 className={`p-1 rounded-lg transition-colors cursor-pointer ${
                   isLight ? 'text-slate-400 hover:text-slate-700' : 'text-neutral-400 hover:text-white'
                 }`}
-                title={language === 'es' ? 'Cerrar' : 'Close'}
+                title={t.common.close}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -669,7 +667,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
               </div>
               <div>
                 <span className={`text-[10px] uppercase font-semibold block ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                  {language === 'es' ? 'Crédito Disponible' : 'Available Credit'}
+                  {t.ledger.availableCreditBadge}
                 </span>
                 <span className="text-sm font-bold font-mono text-emerald-500 mt-0.5 block">
                   {formatMoney(Math.max(0, statementCustomer.debtLimit - statementCustomer.currentDebt))}
@@ -680,11 +678,11 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
             {/* Transactions Header & List */}
             <div className="flex items-center justify-between pb-2 shrink-0">
               <h4 className={`text-xs font-bold uppercase tracking-wider ${isLight ? 'text-slate-700' : 'text-neutral-300'}`}>
-                {language === 'es' ? 'Registro de Movimientos' : 'Transaction History'}
+                {t.ledger.transactionHistory}
               </h4>
               <span className={`text-[11px] font-mono ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
                 {customerLedgers.filter((l) => l.customerId === statementCustomer.id).length}{' '}
-                {language === 'es' ? 'movimientos' : 'records'}
+                {t.ledger.recordsCount}
               </span>
             </div>
 
@@ -729,12 +727,8 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                         <div>
                           <div className={`font-semibold ${isLight ? 'text-slate-800' : 'text-white'}`}>
                             {entry.type === 'sale_debt'
-                              ? language === 'es'
-                                ? 'Cargo / Venta al Fiado'
-                                : 'Charge / Sale on Tab'
-                              : language === 'es'
-                              ? 'Abono Recibido'
-                              : 'Debt Payment Received'}
+                              ? t.ledger.chargeSaleDebt
+                              : t.ledger.paymentReceived}
                           </div>
                           <div className={`text-[11px] font-mono mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
                             {new Date(entry.timestamp).toLocaleString()} • {entry.referenceReceiptNumber}
@@ -759,7 +753,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                             : `-${formatMoney(entry.amount)}`}
                         </span>
                         <span className={`block text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>
-                          {language === 'es' ? 'Saldo' : 'Bal'}: <strong className={isLight ? 'text-slate-700' : 'text-neutral-300'}>{formatMoney(entry.balanceAfter)}</strong>
+                          {t.common.status}: <strong className={isLight ? 'text-slate-700' : 'text-neutral-300'}>{formatMoney(entry.balanceAfter)}</strong>
                         </span>
                       </div>
                     </div>
@@ -781,7 +775,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                     : 'border-neutral-700 text-neutral-300 hover:bg-neutral-800'
                 }`}
               >
-                {language === 'es' ? 'Cerrar' : 'Close'}
+                {t.common.close}
               </button>
 
               {statementCustomer.currentDebt > 0 && (
@@ -902,7 +896,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                     }`}
                   >
                     <Banknote className="w-4 h-4 text-emerald-500" />
-                    <span>{language === 'es' ? 'Efectivo' : 'Cash'}</span>
+                    <span>{t.ledger.cashPayment}</span>
                   </button>
                   <button
                     type="button"
@@ -916,7 +910,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                     }`}
                   >
                     <CreditCard className="w-4 h-4 text-emerald-500" />
-                    <span>{language === 'es' ? 'Tarjeta / TPV' : 'Card / POS'}</span>
+                    <span>{t.ledger.cardPayment}</span>
                   </button>
                 </div>
               </div>
@@ -989,7 +983,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
                     {t.ledger.newCustomerModalTitle}
                   </h3>
                   <p className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                    {language === 'es' ? 'Crear cuenta corriente o libreta de fiado' : 'Create customer credit account or tab'}
+                    {t.ledger.createTabDescription}
                   </p>
                 </div>
               </div>
@@ -1063,7 +1057,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {t.ledger.email} ({language === 'es' ? 'Opcional' : 'Optional'})
+                  {t.ledger.email} ({t.ledger.optionalLabel})
                 </label>
                 <input
                   type="email"
@@ -1080,7 +1074,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {language === 'es' ? `Saldo Inicial al Fiado (${currencySymbol})` : `Opening Tab Balance (${currencySymbol})`}
+                  {t.ledger.initialDebtLabel} ({currencySymbol})
                 </label>
                 <input
                   type="number"
@@ -1100,7 +1094,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {language === 'es' ? 'Notas / Condiciones' : 'Notes / Terms'}
+                  {t.ledger.notesAndTermsLabel}
                 </label>
                 <input
                   type="text"
@@ -1259,7 +1253,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {t.ledger.email} ({language === 'es' ? 'Opcional' : 'Optional'})
+                  {t.ledger.email} ({t.ledger.optionalLabel})
                 </label>
                 <input
                   id="edit-customer-email-input"
@@ -1276,7 +1270,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
 
               <div>
                 <label className={`block text-xs font-semibold mb-1 ${isLight ? 'text-slate-600' : 'text-neutral-400'}`}>
-                  {language === 'es' ? 'Notas / Condiciones' : 'Notes / Terms'}
+                  {t.ledger.notesAndTermsLabel}
                 </label>
                 <input
                   id="edit-customer-notes-input"
@@ -1399,9 +1393,7 @@ export const CustomerLedgerView: React.FC<CustomerLedgerViewProps> = ({
               <div className="mt-3 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 shrink-0" />
                 <span>
-                  {language === 'es'
-                    ? `Atención: El cliente tiene un saldo pendiente de ${formatMoney(customerToDelete.currentDebt)}.`
-                    : `Warning: This customer currently has an unpaid balance of ${formatMoney(customerToDelete.currentDebt)}.`}
+                  {`${t.ledger.customerBalanceWarning} ${formatMoney(customerToDelete.currentDebt)}.`}
                 </span>
               </div>
             )}

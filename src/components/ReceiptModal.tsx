@@ -38,7 +38,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
   const storeSubtitle =
     storeSettings?.storeSubtitle ||
     storeConfig?.storeSubtitle ||
-    (language === 'es' ? 'Punto de Venta y Abarrotes' : 'Point of Sale & Provisions');
+    t.receipt.defaultSubtitle;
   const storeAddress = storeSettings?.address || storeConfig?.address || '742 Evergreen Terrace, Suite 100';
   const storePhone = storeSettings?.phone || storeConfig?.phone || '(555) 902-1200';
   const storeTaxId = storeSettings?.taxId || storeConfig?.taxNumber || '94-204918';
@@ -86,7 +86,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
       `${t.ledger.date}:    ${new Date(sale.timestamp).toLocaleString()}`,
       sale.customerName ? `${t.receipt.customer}: ${sale.customerName}` : null,
       '--------------------------------',
-      language === 'es' ? 'CANT ARTÍCULO              TOTAL' : 'QTY  ITEM                  TOTAL',
+      t.receipt.tableQtyItemTotal,
       '--------------------------------',
       ...sale.items.map(
         (item) =>
@@ -100,25 +100,25 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
       '--------------------------------',
       `${t.receipt.paymentMethod}: ${translatePaymentMethod(sale.paymentMethod).toUpperCase()}`,
       sale.pagoMovilDetails ? '--------------------------------' : null,
-      sale.pagoMovilDetails ? (language === 'es' ? 'DATOS PAGO MÓVIL:' : 'PAGO MÓVIL DETAILS:') : null,
-      sale.pagoMovilDetails ? `${language === 'es' ? 'Teléfono' : 'Phone'}:        ${sale.pagoMovilDetails.phone}` : null,
-      sale.pagoMovilDetails ? `${language === 'es' ? 'Cédula/RIF' : 'ID'}:          ${sale.pagoMovilDetails.cedula}` : null,
-      sale.pagoMovilDetails ? `${language === 'es' ? 'Monto Bs.' : 'Amount Bs.'}:       Bs. ${sale.pagoMovilDetails.amount.toFixed(2)}` : null,
-      sale.pagoMovilDetails ? `${language === 'es' ? 'Últimos 4 Ref' : 'Ref Last 4'}:     ${sale.pagoMovilDetails.referenceLast4}` : null,
+      sale.pagoMovilDetails ? t.receipt.pagoMovilDetailsHeader : null,
+      sale.pagoMovilDetails ? `${t.receipt.phoneLabel}        ${sale.pagoMovilDetails.phone}` : null,
+      sale.pagoMovilDetails ? `${t.receipt.cedulaLabel}          ${sale.pagoMovilDetails.cedula}` : null,
+      sale.pagoMovilDetails ? `${t.receipt.amountPaidLabel}       Bs. ${sale.pagoMovilDetails.amount.toFixed(2)}` : null,
+      sale.pagoMovilDetails ? `${t.receipt.refLast4Label}     ${sale.pagoMovilDetails.referenceLast4}` : null,
       sale.amountTendered > 0 && sale.paymentMethod !== 'pago_movil' ? `${t.receipt.amountTendered}:       ${formatMoney(sale.amountTendered)}` : null,
       sale.changeDue > 0 ? `${t.receipt.changeReturned}:     ${formatMoney(sale.changeDue)}` : null,
       '================================',
       sale.offlineCreated
-        ? (language === 'es' ? '*** PROCESADO SIN CONEXIÓN EN DISPOSITIVO ***' : '*** PROCESSED OFFLINE ON DEVICE ***')
-        : (language === 'es' ? '*** SINCRONIZADO CON LA NUBE ***' : '*** CLOUD SYNCHRONIZED ***'),
-      receiptFooter ? `"${receiptFooter}"` : (language === 'es' ? '    ¡Gracias por su compra!   ' : '    Thank you for your business! '),
+        ? t.receipt.offlineNotice
+        : t.receipt.cloudNotice,
+      receiptFooter ? `"${receiptFooter}"` : `    ${t.receipt.thankYou}   `,
       '================================',
     ]
       .filter(Boolean)
       .join('\n');
 
     navigator.clipboard.writeText(textLines);
-    alert(language === 'es' ? '¡Recibo copiado al portapapeles!' : 'Receipt text copied to clipboard!');
+    alert(t.receipt.copiedNotice);
   };
 
   return (
@@ -216,7 +216,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
                   <span className="font-bold text-slate-800">{t.receipt.customer}:</span> {sale.customerName}
                   {sale.paymentMethod === 'customer_debt' && (
                     <span className="block text-amber-700 font-bold text-[10px]">
-                      {language === 'es' ? '[CARGADO A LIBRETA / FIADO]' : '[CHARGED TO CUSTOMER TAB / DEBT]'}
+                      {t.receipt.chargedToTabNotice}
                     </span>
                   )}
                 </div>
@@ -226,7 +226,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
             {/* Items List */}
             <div className="py-3 border-b border-dashed border-slate-300">
               <div className="flex justify-between text-[10px] font-bold text-slate-700 uppercase mb-1">
-                <span>{language === 'es' ? 'Artículo y Cant.' : 'Item & Qty'}</span>
+                <span>{t.receipt.itemAndQty}</span>
                 <span>Total</span>
               </div>
               <div className="space-y-1.5 text-xs">
@@ -236,7 +236,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
                       <div className="font-medium text-slate-900 leading-tight">{item.name}</div>
                       <div className="text-[10px] text-slate-700">
                         {item.quantity} x {formatMoney(item.price)}
-                        {item.discount > 0 && ` (${language === 'es' ? 'Desc' : 'Disc'} -${formatMoney(item.discount)})`}
+                        {item.discount > 0 && ` (${t.receipt.discountAbbr} -${formatMoney(item.discount)})`}
                       </div>
                     </div>
                     <div className="font-semibold text-slate-900 shrink-0">
@@ -264,7 +264,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
                   {t.register.tax}
                   {appliedTaxPercent > 0
                     ? ` (${appliedTaxPercent}%)`
-                    : ` (0% ${language === 'es' ? 'Exento' : 'Exempt'})`}
+                    : ` (0% ${t.receipt.exemptTax})`}
                 </span>
                 <span>{formatMoney(sale.taxTotal)}</span>
               </div>
@@ -295,19 +295,19 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
               {sale.pagoMovilDetails && (
                 <div className="mt-2 pt-2 border-t border-dotted border-slate-300 text-[11px] space-y-1 text-slate-700 bg-slate-50 p-2 rounded-sm">
                   <div className="font-bold text-slate-900 flex items-center justify-between">
-                    <span>{language === 'es' ? 'Datos Pago Móvil' : 'Pago Móvil Info'}</span>
+                    <span>{t.receipt.pagoMovilDetailsHeader.replace(':', '')}</span>
                     <span className="font-mono text-emerald-800 font-bold">Ref: ****{sale.pagoMovilDetails.referenceLast4}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{language === 'es' ? 'Teléfono:' : 'Phone:'}</span>
+                    <span>{t.receipt.phoneLabel}</span>
                     <span className="font-mono font-medium text-slate-900">{sale.pagoMovilDetails.phone}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{language === 'es' ? 'Cédula / RIF:' : 'ID (C.I./RIF):'}</span>
+                    <span>{t.receipt.cedulaLabel}</span>
                     <span className="font-mono font-medium text-slate-900">{sale.pagoMovilDetails.cedula}</span>
                   </div>
                   <div className="flex justify-between font-semibold text-slate-900">
-                    <span>{language === 'es' ? 'Monto pagado:' : 'Amount paid:'}</span>
+                    <span>{t.receipt.amountPaidLabel}</span>
                     <span className="font-mono font-bold">Bs. {sale.pagoMovilDetails.amount.toFixed(2)}</span>
                   </div>
                 </div>
@@ -355,18 +355,8 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
               <p className="text-[10px] text-slate-700 mt-3">
                 {receiptFooter ? (
                   <span className="italic">"{receiptFooter}"</span>
-                ) : language === 'es' ? (
-                  <>
-                    Devoluciones aceptadas dentro de 14 días con recibo.
-                    <br />
-                    Conserve su comprobante digital o impreso.
-                  </>
                 ) : (
-                  <>
-                    Return accepted within 14 days with receipt.
-                    <br />
-                    Keep your digital or paper receipt.
-                  </>
+                  <span>{t.receipt.footerKeepReceipt}</span>
                 )}
               </p>
             </div>
@@ -387,7 +377,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
                 : 'border-neutral-700 text-neutral-300 hover:bg-neutral-800'
             }`}
           >
-            {language === 'es' ? 'Cerrar' : 'Close'}
+            {t.common.close}
           </button>
           <div className="flex items-center gap-3">
             <span className={`text-xs font-mono hidden sm:inline ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>

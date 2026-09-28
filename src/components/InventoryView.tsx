@@ -73,9 +73,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
       onRefreshData();
       const deletedName = productToDelete.name;
       setDeleteToastMsg(
-        language === 'es'
-          ? `Producto "${deletedName}" eliminado correctamente del catálogo.`
-          : `Product "${deletedName}" was successfully deleted.`
+        `${deletedName} ${t.alerts.productDeletedToast}`
       );
       setTimeout(() => setDeleteToastMsg(null), 4000);
       setProductToDelete(null);
@@ -94,9 +92,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
     dbService.saveProductsBatch(productsToSave);
     onRefreshData();
     setExcelSuccessMsg(
-      language === 'es'
-        ? `¡${productsToSave.length} productos importados y guardados con éxito!`
-        : `Successfully imported and saved ${productsToSave.length} products!`
+      `${productsToSave.length} ${t.alerts.productsImportedToast}`
     );
     setTimeout(() => setExcelSuccessMsg(null), 5000);
   };
@@ -251,7 +247,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   const handleSaveProduct = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formProduct.name || !formProduct.price) {
-      alert(language === 'es' ? 'Nombre y precio del producto son obligatorios.' : 'Product name and price are required.');
+      alert(t.alerts.nameAndPriceRequired);
       return;
     }
 
@@ -404,19 +400,15 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
         setAiInsights([
           {
             type: 'danger',
-            title: language === 'es' ? `${lowItems.length} Productos en o bajo nivel crítico de reorden` : `${lowItems.length} Products At Or Below Reorder Level`,
-            message: language === 'es'
-              ? `Artículos (${lowItems.map((i) => i.name).slice(0, 3).join(', ')}) requieren reabastecimiento urgente para evitar pérdidas de venta.`
-              : `Items (${lowItems.map((i) => i.name).slice(0, 3).join(', ')}) require vendor restocking immediately to prevent lost register sales.`,
-            recommendedAction: language === 'es' ? 'Crear orden de compra a proveedores en la pestaña Libro Mayor.' : 'Create vendor purchase orders in the Vendor Ledger tab.',
+            title: t.inventory.aiLowStockTitle.replace('{count}', String(lowItems.length)),
+            message: t.inventory.aiLowStockMsg.replace('{items}', lowItems.map((i) => i.name).slice(0, 3).join(', ')),
+            recommendedAction: t.inventory.aiLowStockAction,
           },
           {
             type: 'opportunity',
-            title: language === 'es' ? 'Alta Velocidad de Margen' : 'High Margin Velocity',
-            message: language === 'es'
-              ? 'Artículos de Café y Té entregan >45% de margen bruto. Mantenga el exhibidor frontal surtido.'
-              : 'Coffee & Tea items deliver >45% gross margin. Keep front display fully stocked.',
-            recommendedAction: language === 'es' ? 'Ubicar bocadillos de alto margen junto al café.' : 'Position high margin snacks beside coffee bags.',
+            title: t.inventory.aiMarginTitle,
+            message: t.inventory.aiMarginMsg,
+            recommendedAction: t.inventory.aiMarginAction,
           },
         ]);
       }
@@ -453,7 +445,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 text-neutral-200 text-xs font-semibold shadow-xs cursor-pointer transition-colors"
           >
             <Sparkles className="w-4 h-4 text-emerald-400" />
-            <span>{isLoadingAi ? (language === 'es' ? 'Analizando...' : 'Analyzing...') : t.inventory.aiInsightsBtn}</span>
+            <span>{isLoadingAi ? t.inventory.analyzingAi : t.inventory.aiInsightsBtn}</span>
           </button>
           <button
             id="add-product-btn"
@@ -511,13 +503,13 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
         <div className="bg-neutral-900 p-4 rounded-xl border border-neutral-800 shadow-sm">
           <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider">{t.inventory.activeSkus}</span>
           <div className="text-2xl font-bold font-mono text-white mt-1">{stats.totalSKUs}</div>
-          <span className="text-[10px] text-neutral-500 mt-0.5 block">{language === 'es' ? 'Catálogo activo' : 'Catalog size'}</span>
+          <span className="text-[10px] text-neutral-500 mt-0.5 block">{t.inventory.catalogSize}</span>
         </div>
 
         <div className="bg-neutral-900 p-4 rounded-xl border border-neutral-800 shadow-sm">
           <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider">{t.inventory.unitsInStock}</span>
           <div className="text-2xl font-bold font-mono text-white mt-1">{stats.totalUnits}</div>
-          <span className="text-[10px] text-emerald-400 mt-0.5 block">{language === 'es' ? 'Todas las categorías' : 'Across all categories'}</span>
+          <span className="text-[10px] text-emerald-400 mt-0.5 block">{t.inventory.acrossCategories}</span>
         </div>
 
         <div className="bg-neutral-900 p-4 rounded-xl border border-neutral-800 shadow-sm">
@@ -525,7 +517,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
           <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">
             {formatMoney(stats.totalRetailValue, 0)}
           </div>
-          <span className="text-[10px] text-neutral-500 mt-0.5 block">{language === 'es' ? 'Valor en anaquel' : 'Estimated shelf value'}</span>
+          <span className="text-[10px] text-neutral-500 mt-0.5 block">{t.inventory.shelfValue}</span>
         </div>
 
         <div className="bg-neutral-900 p-4 rounded-xl border border-neutral-800 shadow-sm">
@@ -533,7 +525,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
           <div className={`text-2xl font-bold font-mono mt-1 ${stats.lowStockCount > 0 ? 'text-amber-400' : 'text-neutral-400'}`}>
             {stats.lowStockCount}
           </div>
-          <span className="text-[10px] text-neutral-500 mt-0.5 block">{language === 'es' ? 'Requieren reposición' : 'Need replenishment'}</span>
+          <span className="text-[10px] text-neutral-500 mt-0.5 block">{t.inventory.needReplenishment}</span>
         </div>
       </div>
 
@@ -544,14 +536,14 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-emerald-400" />
               <h4 className="font-bold text-xs uppercase tracking-wider text-emerald-300">
-                {language === 'es' ? 'Perspectivas IA de Inventario y Suministro' : 'AI Stock & Supply Chain Insights'}
+                {t.inventory.aiInsightsTitle}
               </h4>
             </div>
             <button
               onClick={() => setAiInsights([])}
               className="text-neutral-400 hover:text-white text-xs cursor-pointer"
             >
-              {language === 'es' ? 'Cerrar' : 'Dismiss'}
+              {t.inventory.aiInsightsDismiss}
             </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -575,7 +567,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                 <p className="text-neutral-300 text-[11px] leading-relaxed">{insight.message}</p>
                 {insight.recommendedAction && (
                   <p className="text-emerald-400 font-semibold text-[11px] pt-1">
-                    {language === 'es' ? 'Acción:' : 'Action:'} {insight.recommendedAction}
+                    {t.inventory.actionLabel} {insight.recommendedAction}
                   </p>
                 )}
               </div>
@@ -673,7 +665,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                                 ? 'bg-amber-50 text-amber-900 border-amber-300 shadow-2xs'
                                 : 'bg-amber-950/50 text-amber-300 border-amber-800/60'
                             }`}
-                            title={`${p.bulkUnits || 1} ${language === 'es' ? 'unidades por bulto' : 'units per pack'}`}
+                            title={`${p.bulkUnits || 1} ${t.inventory.unitsPerPack}`}
                           >
                             <Boxes className={`w-2.5 h-2.5 ${isLight ? 'text-amber-800' : 'text-amber-400'}`} />
                             <span>{p.bulkUnits ? `${p.bulkUnits}u` : t.inventory.bulkPackBadge}</span>
@@ -902,7 +894,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               {filteredProducts.length === 0 && (
                 <tr>
                   <td colSpan={6} className="py-10 text-center text-neutral-500">
-                    {language === 'es' ? 'No se encontraron productos coincidentes.' : 'No products matched your criteria.'}
+                    {t.inventory.noProductsFound}
                   </td>
                 </tr>
               )}
@@ -940,11 +932,11 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                   <div>
                     <h3 className={`font-bold text-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>
                       {editingProduct
-                        ? (language === 'es' ? 'Editar Detalles del Producto' : 'Edit Product Details')
-                        : (language === 'es' ? 'Agregar Nuevo Artículo' : 'Add New Item')}
+                        ? t.inventory.editProductDetails
+                        : t.inventory.addNewItem}
                     </h3>
                     <p className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                      {editingProduct ? (formProduct.name || editingProduct.name) : (language === 'es' ? 'Catálogo de inventario y precios' : 'Inventory catalog and pricing')}
+                      {editingProduct ? (formProduct.name || editingProduct.name) : t.inventory.catalogAndPricingSubtitle}
                     </p>
                   </div>
                 </div>
@@ -979,9 +971,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                   required
                   value={formProduct.name}
                   onChange={(e) => setFormProduct({ ...formProduct, name: e.target.value })}
-                  placeholder={
-                    language === 'es' ? 'Ej. Café Colombiano Tostado 340g' : 'e.g. Colombian Roast Beans 12oz'
-                  }
+                  placeholder={t.inventory.productNameExample}
                   className={`w-full text-xs p-2.5 rounded-lg border focus:outline-hidden focus:border-emerald-600 transition-colors ${
                     isLight
                       ? 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white'
@@ -1024,7 +1014,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                     </option>
                   ))}
                   <option value="__NEW_CATEGORY__">
-                    {language === 'es' ? '+ Crear nueva categoría...' : '+ Create new category...'}
+                    {t.inventory.createNewCategoryPrompt}
                   </option>
                 </select>
 
@@ -1034,11 +1024,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                       id="custom-category-input"
                       type="text"
                       autoFocus
-                      placeholder={
-                        language === 'es'
-                          ? 'Nombre de la nueva categoría...'
-                          : 'Enter new category name...'
-                      }
+                      placeholder={t.settings.newCategoryPlaceholder}
                       value={customCategoryName}
                       onChange={(e) => {
                         setCustomCategoryName(e.target.value);
@@ -1118,11 +1104,11 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                       <div className="flex items-center gap-2">
                         <Boxes className="w-4 h-4 text-amber-400" />
                         <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">
-                          {language === 'es' ? 'Parámetros del Bulto' : 'Bulk Pack Parameters'}
+                          {t.inventory.bulkPackParams}
                         </span>
                       </div>
                       <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30 font-medium">
-                        {language === 'es' ? 'Asistente de cálculo' : 'Calculation assistant'}
+                        {t.inventory.calcAssistant}
                       </span>
                     </div>
 
@@ -1236,7 +1222,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                         </div>
                         <div className="flex items-center justify-between text-[11px]">
                           <span className={isLight ? 'text-slate-500' : 'text-neutral-400'}>
-                            {language === 'es' ? 'Ganancia por unidad:' : 'Profit per unit:'}
+                            {t.inventory.profitPerUnit}
                           </span>
                           <span className="font-mono font-bold text-amber-500">
                             +{bulkCalculationResult.profitMarginPercent}% ({currencySymbol}{bulkCalculationResult.profitValue.toFixed(2)})
@@ -1273,7 +1259,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                     </label>
                     {effectivePricingMethod === 'BULK_PACK' && (
                       <span className="text-[10px] text-emerald-400 font-medium">
-                        {language === 'es' ? 'Sugerido editable' : 'Editable suggested'}
+                        {t.inventory.editableSuggested}
                       </span>
                     )}
                   </div>
@@ -1381,7 +1367,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                     type="text"
                     value={formProduct.barcode}
                     onChange={(e) => setFormProduct({ ...formProduct, barcode: e.target.value })}
-                    placeholder={language === 'es' ? 'Escanear o escribir código de barras' : 'Scan or type barcode'}
+                    placeholder={t.inventory.scanOrTypeBarcode}
                     className={`w-full text-xs font-mono p-2.5 pr-10 rounded-lg border focus:outline-hidden focus:border-emerald-600 transition-colors ${
                       isLight
                         ? 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white'
@@ -1524,7 +1510,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                 <div>
                   {t.inventory.stockQuantity}:{' '}
                   <span className={`font-bold ${isLight ? 'text-slate-700' : 'text-neutral-300'}`}>
-                    {productToDelete.stock} {language === 'es' ? 'uds' : 'units'}
+                    {productToDelete.stock} {t.common.unitsAbbr}
                   </span>
                 </div>
               </div>
@@ -1556,9 +1542,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>
-                  {isDeleting
-                    ? (language === 'es' ? 'Eliminando...' : 'Deleting...')
-                    : (language === 'es' ? 'Eliminar Producto' : 'Delete Product')}
+                  {isDeleting ? t.inventory.deletingProduct : t.inventory.deleteProduct}
                 </span>
               </button>
             </div>

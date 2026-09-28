@@ -144,7 +144,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
       const workbook = XLSX.read(data, { type: 'array' });
       const firstSheetName = workbook.SheetNames[0];
       if (!firstSheetName) {
-        throw new Error(language === 'es' ? 'El archivo Excel no contiene hojas de datos.' : 'The spreadsheet has no worksheets.');
+        throw new Error(t.excel.noSheetsError);
       }
 
       const worksheet = workbook.Sheets[firstSheetName];
@@ -154,11 +154,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
       });
 
       if (!rawRows || rawRows.length === 0) {
-        throw new Error(
-          language === 'es'
-            ? 'La hoja de cálculo está vacía o no contiene filas con encabezados.'
-            : 'The spreadsheet is empty or has no header rows.'
-        );
+        throw new Error(t.excel.emptySheetError);
       }
 
       // Process each row
@@ -215,7 +211,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
           return {
             rowNumber,
             status: 'invalid',
-            errorMessage: language === 'es' ? 'Falta el nombre del producto' : 'Missing product name',
+            errorMessage: t.excel.missingNameError,
             data: {},
             rawRow: raw,
           };
@@ -225,7 +221,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
           return {
             rowNumber,
             status: 'invalid',
-            errorMessage: language === 'es' ? 'Precio inválido (debe ser > 0)' : 'Invalid price (must be > 0)',
+            errorMessage: t.excel.invalidPriceError,
             data: { name },
             rawRow: raw,
           };
@@ -477,7 +473,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                   <span>{selectedFile.name}</span>
                 </div>
                 <p className="text-xs text-neutral-400">
-                  {(selectedFile.size / 1024).toFixed(1)} KB · {language === 'es' ? 'Haz clic para cambiar de archivo' : 'Click to select another file'}
+                  {(selectedFile.size / 1024).toFixed(1)} KB · {t.excel.clickToChangeFile}
                 </p>
               </div>
             ) : (
@@ -499,7 +495,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
           {isParsing && (
             <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center gap-3 text-xs text-neutral-300">
               <RefreshCw className="w-4 h-4 text-emerald-400 animate-spin" />
-              <span>{language === 'es' ? 'Analizando estructura de columnas y filas de Excel...' : 'Parsing spreadsheet columns and rows...'}</span>
+              <span>{t.excel.parsingFile}</span>
             </div>
           )}
 
@@ -519,7 +515,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                   {t.inventory.validationSummary}
                 </h4>
                 <span className="text-xs font-mono text-neutral-400">
-                  {validTotal} {language === 'es' ? 'productos listos' : 'products ready'}
+                  {validTotal} {t.excel.productsReady}
                 </span>
               </div>
 
@@ -583,7 +579,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                 {updateExisting && updateCount > 0 && (
                   <div className="pl-6 pt-1 space-y-2">
                     <span className="text-[11px] font-semibold text-neutral-400 block">
-                      {language === 'es' ? 'Comportamiento del Stock para productos existentes:' : 'Stock behavior for existing products:'}
+                      {t.excel.stockBehaviorTitle}
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                       <label
@@ -642,7 +638,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                           : 'bg-neutral-900 text-neutral-400 hover:text-neutral-200'
                       }`}
                     >
-                      {language === 'es' ? 'Todos' : 'All'} ({parsedRows.length})
+                      {t.excel.filterAll} ({parsedRows.length})
                     </button>
                     <button
                       type="button"
@@ -653,7 +649,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                           : 'bg-neutral-900 text-neutral-400 hover:text-emerald-300'
                       }`}
                     >
-                      {language === 'es' ? 'Nuevos' : 'New'} ({newCount})
+                      {t.excel.filterNew} ({newCount})
                     </button>
                     <button
                       type="button"
@@ -664,7 +660,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                           : 'bg-neutral-900 text-neutral-400 hover:text-blue-300'
                       }`}
                     >
-                      {language === 'es' ? 'Actualizar' : 'Update'} ({updateCount})
+                      {t.excel.filterUpdate} ({updateCount})
                     </button>
                     {invalidCount > 0 && (
                       <button
@@ -676,7 +672,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                             : 'bg-neutral-900 text-neutral-400 hover:text-orange-300'
                         }`}
                       >
-                        {language === 'es' ? 'Errores' : 'Errors'} ({invalidCount})
+                        {t.excel.filterErrors} ({invalidCount})
                       </button>
                     )}
                   </div>
@@ -688,7 +684,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                     <thead className="bg-neutral-950 text-neutral-400 text-[10px] uppercase font-semibold tracking-wider sticky top-0 border-b border-neutral-800">
                       <tr>
                         <th className="py-2 px-3">#</th>
-                        <th className="py-2 px-3">{language === 'es' ? 'Estado' : 'Status'}</th>
+                        <th className="py-2 px-3">{t.excel.statusCol}</th>
                         <th className="py-2 px-3">{t.inventory.productName}</th>
                         <th className="py-2 px-3">{t.inventory.category}</th>
                         <th className="py-2 px-3">{t.inventory.sku}</th>
@@ -715,12 +711,12 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                           <td className="py-2 px-3 whitespace-nowrap">
                             {row.status === 'new' && (
                               <span className="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono bg-emerald-950/80 text-emerald-400 border border-emerald-800/70">
-                                {language === 'es' ? 'NUEVO' : 'NEW'}
+                                {t.excel.badgeNew}
                               </span>
                             )}
                             {row.status === 'update' && (
                               <span className="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono bg-blue-950/80 text-blue-400 border border-blue-800/70">
-                                {language === 'es' ? 'ACTUALIZAR' : 'UPDATE'}
+                                {t.excel.badgeUpdate}
                               </span>
                             )}
                             {row.status === 'invalid' && (
@@ -728,7 +724,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                                 className="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono bg-orange-950/80 text-orange-400 border border-orange-800/70"
                                 title={row.errorMessage}
                               >
-                                {language === 'es' ? 'ERROR' : 'INVALID'}
+                                {t.excel.badgeError}
                               </span>
                             )}
                           </td>
@@ -761,7 +757,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                 </div>
                 {displayedRows.length > 50 && (
                   <p className="text-[11px] text-neutral-500 text-center font-mono">
-                    {language === 'es' ? `Mostrando primeras 50 filas de ${displayedRows.length}` : `Showing first 50 rows of ${displayedRows.length}`}
+                    {`${t.excel.showingRows} ${displayedRows.length}`}
                   </p>
                 )}
               </div>
@@ -791,7 +787,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
             <div className={`text-xs text-center sm:text-right ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
               {parsedRows.length > 0 ? (
                 <span>
-                  {validTotal} {language === 'es' ? 'productos serán importados a la base de datos' : 'products will be saved to database'}.
+                  {`${validTotal} ${t.excel.willBeSaved}.`}
                 </span>
               ) : (
                 <span>{t.inventory.noFileSelected}</span>

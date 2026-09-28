@@ -100,7 +100,7 @@ export default function App() {
     const handleOnline = () => {
       dbService.setOnlineStatus(true);
       setIsOnline(true);
-      showToast(language === 'es' ? 'Red reestablecida: Tienda en línea. Sincronización en la nube lista.' : 'Network restored: Store is online. Cloud sync ready.');
+      showToast(t.alerts.networkRestored);
       // Auto flush queue when reconnecting
       handleTriggerSync();
     };
@@ -108,7 +108,7 @@ export default function App() {
     const handleOffline = () => {
       dbService.setOnlineStatus(false);
       setIsOnline(false);
-      showToast(language === 'es' ? 'Internet desconectado. Modo sin conexión activo: Todas las ventas e inventario se guardan localmente.' : 'Internet disconnected. Offline mode active: All sales & stock saved locally.');
+      showToast(t.alerts.networkDisconnected);
     };
 
     window.addEventListener('online', handleOnline);
@@ -118,7 +118,7 @@ export default function App() {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, [refreshData, language]);
+  }, [refreshData, language, t]);
 
   // Cloud / SQLite Sync Handler
   const handleTriggerSync = async () => {
@@ -129,14 +129,10 @@ export default function App() {
       const result = await dbService.syncFromSqlite();
       refreshData();
       sound.success();
-      showToast(
-        language === 'es'
-          ? 'Base de datos SQLite sincronizada exitosamente.'
-          : 'SQLite database synchronized successfully.'
-      );
+      showToast(t.alerts.syncSuccess);
     } catch (err) {
       sound.error();
-      showToast(language === 'es' ? 'Error de sincronización: Los cambios guardados permanecerán seguros en la cola local.' : 'Sync failed: Saved changes will remain safe in local queue.');
+      showToast(t.alerts.syncFailed);
     } finally {
       setIsSyncing(false);
     }
@@ -149,10 +145,10 @@ export default function App() {
     setIsOnline(newStatus);
 
     if (newStatus) {
-      showToast(language === 'es' ? 'Cambiado a modo EN LÍNEA. Sincronización automática disponible.' : 'Switched to ONLINE mode. Automatic sync available.');
+      showToast(t.alerts.switchedToOnline);
       handleTriggerSync();
     } else {
-      showToast(language === 'es' ? 'Simulando modo SIN CONEXIÓN (Corte de red). Todas las herramientas del POS siguen 100% operativas.' : 'Simulating OFFLINE mode (Network dropped). All POS tools remain 100% operational.');
+      showToast(t.alerts.simulatingOffline);
     }
   };
 
@@ -163,11 +159,7 @@ export default function App() {
     if (newSettings.accentColor) {
       setAccentColor(newSettings.accentColor);
     }
-    showToast(
-      language === 'es'
-        ? '¡Parámetros de la tienda guardados correctamente!'
-        : 'Store settings saved successfully!'
-    );
+    showToast(t.alerts.settingsSaved);
   };
 
   const handleResetStoreSettings = () => {
@@ -175,21 +167,13 @@ export default function App() {
     const defaults = dbService.getStoreSettings();
     setStoreSettings(defaults);
     setAccentColor('emerald');
-    showToast(
-      language === 'es'
-        ? 'Parámetros restablecidos a valores de fábrica.'
-        : 'Settings reset to factory defaults.'
-    );
+    showToast(t.alerts.settingsReset);
   };
 
   const handleClearSyncedQueue = () => {
     dbService.clearSyncedQueue();
     refreshData();
-    showToast(
-      language === 'es'
-        ? 'Historial de elementos sincronizados limpiado.'
-        : 'Synced queue history cleared.'
-    );
+    showToast(t.alerts.queueCleared);
   };
 
   // Barcode scanned callback
@@ -200,13 +184,13 @@ export default function App() {
 
     if (!product) {
       sound.error();
-      alert(language === 'es' ? `No se encontró ningún producto en el catálogo con código de barras/SKU: "${barcode}"` : `No product found in catalog matching barcode/SKU: "${barcode}"`);
+      alert(`${t.alerts.productNotFound} "${barcode}"`);
       return;
     }
 
     if (product.stock <= 0) {
       sound.error();
-      alert(language === 'es' ? `El producto "${product.name}" está AGOTADO.` : `Product "${product.name}" is OUT OF STOCK.`);
+      alert(`"${product.name}" ${t.alerts.productOutOfStock}`);
       return;
     }
 
@@ -223,7 +207,7 @@ export default function App() {
         const existing = prev[existingIdx];
         if (existing.quantity + 1 > product.stock) {
           sound.error();
-          alert(language === 'es' ? `No se puede agregar más. Solo quedan ${product.stock} unidades disponibles.` : `Cannot add more. Only ${product.stock} units available.`);
+          alert(t.alerts.cannotAddMoreStock.replace('{stock}', String(product.stock)));
           return prev;
         }
 
@@ -263,11 +247,7 @@ export default function App() {
     });
 
     const currSym = storeSettings.currencySymbol || '$';
-    showToast(
-      language === 'es'
-        ? `Escaneado: ${product.name} (${currSym}${product.price.toFixed(2)})`
-        : `Scanned: ${product.name} (${currSym}${product.price.toFixed(2)})`
-    );
+    showToast(`${t.alerts.productScanned} ${product.name} (${currSym}${product.price.toFixed(2)})`);
     setIsScannerOpen(false);
   };
 
@@ -359,7 +339,7 @@ export default function App() {
 
     // Show thermal receipt printable modal
     setReceiptToPrint(newSale);
-    showToast(language === 'es' ? `¡Venta registrada con éxito! Recibo #${newSale.receiptNumber}` : `Sale recorded successfully! Receipt #${newSale.receiptNumber}`);
+    showToast(`${t.alerts.saleSuccess} ${newSale.receiptNumber}`);
 
     // If online, trigger auto sync in background
     if (isOnline) {

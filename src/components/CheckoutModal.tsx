@@ -108,9 +108,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     if (paymentMethod === 'cash' && isCashUnderpaid) {
       sound.error();
       setErrorMsg(
-        language === 'es'
-          ? `El monto recibido (${formatMoney(tenderedAmount)}) es menor al total (${formatMoney(total)}).`
-          : `Amount tendered (${formatMoney(tenderedAmount)}) is less than total (${formatMoney(total)}).`
+        `${t.checkout.insufficientCash} (${t.checkout.shortageWarning} ${formatMoney(total - tenderedAmount)})`
       );
       return;
     }
@@ -123,38 +121,22 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
       if (!cleanPhone) {
         sound.error();
-        setErrorMsg(
-          language === 'es'
-            ? 'Por favor ingresa el número telefónico del Pago Móvil.'
-            : 'Please enter the Pago Móvil phone number.'
-        );
+        setErrorMsg(t.checkout.phoneRequired);
         return;
       }
       if (!cleanCedula) {
         sound.error();
-        setErrorMsg(
-          language === 'es'
-            ? 'Por favor ingresa la cédula o RIF del pagador.'
-            : 'Please enter the ID (C.I. / RIF) of the payer.'
-        );
+        setErrorMsg(t.checkout.cedulaRequired);
         return;
       }
       if (isNaN(parsedAmount) || parsedAmount <= 0) {
         sound.error();
-        setErrorMsg(
-          language === 'es'
-            ? 'Por favor ingresa un monto válido en Bolívares (Bs.).'
-            : 'Please enter a valid amount in Bolívares (Bs.).'
-        );
+        setErrorMsg(t.checkout.validAmountRequired);
         return;
       }
       if (!cleanRef || !/^\d{4}$/.test(cleanRef)) {
         sound.error();
-        setErrorMsg(
-          language === 'es'
-            ? 'Por favor ingresa los 4 últimos dígitos de la referencia (exactamente 4 números).'
-            : 'Please enter the last 4 digits of the reference (exactly 4 digits).'
-        );
+        setErrorMsg(t.checkout.validRefRequired);
         return;
       }
 
@@ -182,9 +164,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       }
       if (isOverDebtLimit) {
         const proceed = confirm(
-          language === 'es'
-            ? `El límite de crédito del cliente es ${formatMoney(selectedCustomer.debtLimit)}. Esta compra llevará su saldo a ${formatMoney(newProjectedDebt)}. ¿Autorizar de todos modos?`
-            : `Customer debt limit is ${formatMoney(selectedCustomer.debtLimit)}. This purchase will bring their balance to ${formatMoney(newProjectedDebt)}. Proceed anyway with manager override?`
+          `${t.checkout.creditLimitWarning} (${t.checkout.currentDebtLabel} ${formatMoney(selectedCustomer.currentDebt)}, ${t.checkout.projectedDebtLabel} ${formatMoney(newProjectedDebt)})`
         );
         if (!proceed) return;
       }
@@ -194,9 +174,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       if (!selectedCustomer || selectedCustomer.creditBalance < total) {
         sound.error();
         setErrorMsg(
-          language === 'es'
-            ? `Saldo a favor insuficiente. Disponible: ${formatMoney(selectedCustomer?.creditBalance || 0)}`
-            : `Insufficient store credit balance. Available: ${formatMoney(selectedCustomer?.creditBalance || 0)}`
+          `${t.checkout.insufficientCreditBalance} (${t.checkout.availableCreditLabel} ${formatMoney(selectedCustomer?.creditBalance || 0)})`
         );
         return;
       }
@@ -238,7 +216,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   {t.checkout.title}
                 </h3>
                 <p className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-                  {language === 'es' ? 'Seleccione método de pago y complete la transacción' : 'Select payment method and complete transaction'}
+                  {t.checkout.paymentMethod}
                 </p>
               </div>
             </div>
@@ -302,7 +280,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 >
                   <Banknote className="w-5 h-5 mb-1.5 text-emerald-600 dark:text-emerald-400" />
                   <span className="text-xs font-bold">{t.checkout.cash}</span>
-                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{language === 'es' ? 'Billetes y Vuelto' : 'Bills & Change'}</span>
+                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{t.checkout.billsAndChange}</span>
                 </button>
 
                 <button
@@ -321,7 +299,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 >
                   <CreditCard className="w-5 h-5 mb-1.5 text-emerald-600 dark:text-emerald-400" />
                   <span className="text-xs font-bold">{t.checkout.card}</span>
-                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{language === 'es' ? 'Chip / POS' : 'Chip / POS'}</span>
+                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{t.checkout.cardPos}</span>
                 </button>
 
                 <button
@@ -343,7 +321,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 >
                   <Smartphone className="w-5 h-5 mb-1.5 text-emerald-600 dark:text-emerald-400" />
                   <span className="text-xs font-bold">{t.checkout.pagoMovil}</span>
-                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{language === 'es' ? 'Interbancario Bs.' : 'VES Instant'}</span>
+                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{t.checkout.pagoMovilBs}</span>
                 </button>
 
                 <button
@@ -362,7 +340,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 >
                   <BookOpen className="w-5 h-5 mb-1.5 text-amber-600 dark:text-orange-400" />
                   <span className="text-xs font-bold">{t.checkout.customerTab}</span>
-                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{language === 'es' ? 'Cargar a Libreta' : 'Charge to Debt'}</span>
+                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{t.checkout.chargeToTab}</span>
                 </button>
 
                 <button
@@ -381,7 +359,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 >
                   <Gift className="w-5 h-5 mb-1.5 text-emerald-600 dark:text-emerald-400" />
                   <span className="text-xs font-bold">{t.checkout.storeCredit}</span>
-                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{language === 'es' ? 'Saldo Anticipado' : 'Pre-paid Balance'}</span>
+                  <span className={`text-[10px] mt-0.5 ${isLight ? 'text-slate-500' : 'text-neutral-500'}`}>{t.checkout.prepaidCredit}</span>
                 </button>
               </div>
             </div>
@@ -441,7 +419,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </div>
                 {isCashUnderpaid && (
                   <span className="text-xs text-orange-400 font-medium bg-orange-950/40 border border-orange-900/50 px-2 py-1 rounded-md">
-                    {language === 'es' ? `Faltan ${formatMoney(total - tenderedAmount)}` : `Short by ${formatMoney(total - tenderedAmount)}`}
+                    {t.checkout.shortageWarning} {formatMoney(total - tenderedAmount)}
                   </span>
                 )}
               </div>
@@ -451,14 +429,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           {paymentMethod === 'card' && (
             <div className="bg-neutral-900/80 p-5 rounded-xl border border-neutral-800 text-center space-y-2">
               <CreditCard className="w-8 h-8 text-emerald-400 mx-auto" />
-              <h4 className="text-xs font-bold text-white">{language === 'es' ? 'Terminal de Tarjeta Lista' : 'Card Terminal Ready'}</h4>
+              <h4 className="text-xs font-bold text-white">{t.checkout.cardTerminalReady}</h4>
               <p className="text-xs text-neutral-400 max-w-sm mx-auto">
-                {language === 'es'
-                  ? 'Listo para pago sin contacto (Tap), chip EMV o banda magnética en el terminal POS conectado.'
-                  : 'Ready for contactless tap, EMV chip, or magnetic stripe on connected physical POS terminal.'}
+                {t.checkout.cardTerminalInstructions}
               </p>
               <div className="text-[11px] font-mono text-emerald-400 font-semibold bg-[#0D0D0D] inline-block px-3 py-1 rounded-full border border-neutral-800">
-                {language === 'es' ? 'Monto Autorizado' : 'Authorized Amount'}: {formatMoney(total)}
+                {t.checkout.authorizedAmount}: {formatMoney(total)}
               </div>
             </div>
           )}
@@ -494,7 +470,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                         onClick={() => setPmPhone(selectedCustomer.phone)}
                         className="text-[10px] text-emerald-400 hover:text-emerald-300 cursor-pointer underline"
                       >
-                        {language === 'es' ? 'Usar cliente' : 'Use customer'}
+                        {t.checkout.useCustomer}
                       </button>
                     )}
                   </div>
@@ -544,7 +520,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                       onClick={() => setPmAmount(calculatedBsTotal)}
                       className="text-[10px] text-neutral-400 hover:text-emerald-400 cursor-pointer"
                     >
-                      {language === 'es' ? 'Monto exacto' : 'Exact amount'}
+                      {t.checkout.exactAmount}
                     </button>
                   </div>
                   <div className="relative">
@@ -592,7 +568,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     />
                   </div>
                   <p className="text-[10px] text-neutral-500 mt-1">
-                    {language === 'es' ? 'Exactamente 4 dígitos del comprobante' : 'Exact 4 digits of confirmation reference'}
+                    {t.checkout.refDigitsHint}
                   </p>
                 </div>
               </div>
@@ -609,11 +585,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               <div className="flex items-start gap-2.5">
                 <BookOpen className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-bold text-white">{language === 'es' ? 'Cuenta Corriente de Cliente (Fiado)' : 'Store Account Debt Tab'}</h4>
+                  <h4 className="text-xs font-bold text-white">{t.checkout.customerTab}</h4>
                   <p className="text-xs text-neutral-400">
-                    {language === 'es'
-                      ? 'Guarda la deuda en la libreta/cuenta del cliente sin conexión.'
-                      : 'Saves debt to customer\'s offline khata / ledger statement.'}
+                    {t.checkout.tabCustomerDescription}
                   </p>
                 </div>
               </div>
@@ -630,19 +604,19 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                           onClick={() => onSelectCustomer(null)}
                           className="text-[11px] text-emerald-400 hover:text-emerald-300 underline cursor-pointer"
                         >
-                          {language === 'es' ? 'Cambiar' : 'Change'}
+                          {t.checkout.changeCustomer}
                         </button>
                       )}
                     </div>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-500">{language === 'es' ? 'Deuda Pendiente Actual:' : 'Current Outstanding Debt:'}</span>
+                    <span className="text-neutral-500">{t.checkout.currentDebtLabel}</span>
                     <span className="font-mono font-bold text-orange-400">
                       {formatMoney(selectedCustomer.currentDebt)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-500">{language === 'es' ? 'Nuevo Saldo Tras Venta:' : 'New Balance After Sale:'}</span>
+                    <span className="text-neutral-500">{t.checkout.projectedDebtLabel}</span>
                     <span className="font-mono font-bold text-white">
                       {formatMoney(newProjectedDebt)}
                     </span>
@@ -656,9 +630,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     <div className="mt-2 flex items-center gap-1.5 p-2 bg-red-950/40 text-red-400 rounded-md border border-red-900/50 text-[11px]">
                       <ShieldAlert className="w-4 h-4 shrink-0" />
                       <span>
-                        {language === 'es'
-                          ? `Aviso: Supera el límite de crédito por ${formatMoney(newProjectedDebt - selectedCustomer.debtLimit)}.`
-                          : `Warning: Exceeds customer credit limit by ${formatMoney(newProjectedDebt - selectedCustomer.debtLimit)}.`}
+                        {t.checkout.creditLimitWarning}
                       </span>
                     </div>
                   )}
@@ -666,7 +638,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               ) : (
                 <div className="p-3 bg-[#0D0D0D] rounded-lg border border-neutral-800 space-y-2">
                   <label className="block text-xs font-semibold text-neutral-300">
-                    {language === 'es' ? 'Seleccionar Cliente / Cuenta:' : 'Select Customer Account:'}
+                    {t.checkout.selectCustomerForTab}
                   </label>
                   <select
                     value=""
@@ -676,17 +648,15 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     }}
                     className="w-full text-xs py-2 px-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white focus:outline-hidden focus:border-emerald-600"
                   >
-                    <option value="">{language === 'es' ? '-- Elige un cliente para fiar --' : '-- Choose a customer for credit --'}</option>
+                    <option value="">{t.checkout.chooseCustomerForTabPlaceholder}</option>
                     {customers?.map((c) => (
                       <option key={c.id} value={c.id}>
-                        {c.name} {c.currentDebt > 0 ? `• [${language === 'es' ? 'Deuda' : 'Debt'}: ${formatMoney(c.currentDebt)}]` : ''}
+                        {c.name} {c.currentDebt > 0 ? `• [${t.register.customerDebt}: ${formatMoney(c.currentDebt)}]` : ''}
                       </option>
                     ))}
                   </select>
                   <p className="text-[11px] text-neutral-500">
-                    {language === 'es'
-                      ? 'Selecciona la cuenta del cliente para cargar el fiado a su libreta.'
-                      : 'Select the customer account to add this debt to their ledger.'}
+                    {t.checkout.tabExplanation}
                   </p>
                 </div>
               )}
@@ -711,19 +681,19 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                           onClick={() => onSelectCustomer(null)}
                           className="text-[11px] text-emerald-400 hover:text-emerald-300 underline cursor-pointer"
                         >
-                          {language === 'es' ? 'Cambiar' : 'Change'}
+                          {t.checkout.changeCustomer}
                         </button>
                       )}
                     </div>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-500">{language === 'es' ? 'Saldo Disponible:' : 'Available Credit:'}</span>
+                    <span className="text-neutral-500">{t.checkout.availableCreditLabel}</span>
                     <span className="font-mono font-bold text-emerald-400">
                       {formatMoney(selectedCustomer.creditBalance)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-500">{language === 'es' ? 'Saldo Restante Tras Venta:' : 'Remaining Balance After Sale:'}</span>
+                    <span className="text-neutral-500">{t.checkout.remainingCreditLabel}</span>
                     <span className="font-mono font-bold text-emerald-400">
                       {formatMoney(Math.max(0, selectedCustomer.creditBalance - total))}
                     </span>
@@ -732,7 +702,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               ) : (
                 <div className="p-3 bg-[#0D0D0D] rounded-lg border border-neutral-800 space-y-2">
                   <label className="block text-xs font-semibold text-neutral-300">
-                    {language === 'es' ? 'Seleccionar Cliente con Saldo a Favor:' : 'Select Customer Account:'}
+                    {t.checkout.selectCustomerCredit}
                   </label>
                   <select
                     value=""
@@ -742,10 +712,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     }}
                     className="w-full text-xs py-2 px-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white focus:outline-hidden focus:border-emerald-600"
                   >
-                    <option value="">{language === 'es' ? '-- Elige un cliente --' : '-- Choose a customer --'}</option>
+                    <option value="">{t.checkout.chooseCustomerCreditPlaceholder}</option>
                     {customers?.map((c) => (
                       <option key={c.id} value={c.id}>
-                        {c.name} • [{language === 'es' ? 'Saldo' : 'Balance'}: {formatMoney(c.creditBalance)}]
+                        {c.name} • [{t.register.customerCredit}: ${formatMoney(c.creditBalance)}]
                       </option>
                     ))}
                   </select>

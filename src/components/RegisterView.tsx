@@ -308,7 +308,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                         </span>
                       ) : (
                         <span className="text-[10px] font-medium text-emerald-400 bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-900/50">
-                          {product.stock} {language === 'es' ? 'uds' : 'units'}
+                          {product.stock} {t.common.unitsAbbr}
                         </span>
                       )}
                     </div>
@@ -345,8 +345,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
             {filteredProducts.length === 0 && (
               <div className="col-span-full py-12 text-center bg-neutral-900 rounded-2xl border border-neutral-800 p-6">
                 <ShoppingBag className="w-10 h-10 text-neutral-600 mx-auto mb-2" />
-                <p className="text-xs font-semibold text-neutral-300">No products match &ldquo;{searchQuery}&rdquo;</p>
-                <p className="text-[11px] text-neutral-500 mt-1">Try searching another SKU or category.</p>
+                <p className="text-xs font-semibold text-neutral-300">{t.inventory.noProductsFound}</p>
               </div>
             )}
           </div>
@@ -383,9 +382,9 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                   <div className="min-w-0 flex-1">
                     <h5 className="font-medium text-xs text-white truncate">{item.name}</h5>
                     <div className="flex items-center gap-2 text-[11px] text-neutral-500 font-mono">
-                      <span>{formatMoney(item.price)} {language === 'es' ? 'c/u' : 'ea'}</span>
+                      <span>{formatMoney(item.price)} {t.register.perUnit}</span>
                       {item.discount > 0 && (
-                        <span className="text-emerald-400 font-medium">({item.discount}% {language === 'es' ? 'desc.' : 'off'})</span>
+                        <span className="text-emerald-400 font-medium">({item.discount}% {t.register.discountShort})</span>
                       )}
                     </div>
                   </div>

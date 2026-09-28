@@ -173,11 +173,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
   // Safe camera stream acquisition with robust fallback cascade
   const obtainCameraStream = async (deviceId?: string): Promise<MediaStream> => {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      throw new Error(
-        language === 'es'
-          ? 'La API de cámara (getUserMedia) no está soportada o está restringida en este navegador.'
-          : 'Camera API (getUserMedia) is not supported or restricted in this browser context.'
-      );
+      throw new Error(t.scanner.cameraApiNotSupportedError);
     }
 
     // Attempt 1: If specific device ID chosen
@@ -405,20 +401,11 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
 
       let userMsg = err.message || '';
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        userMsg =
-          language === 'es'
-            ? 'Permiso de cámara denegado. Por favor permite el acceso a la cámara en tu navegador o abre la aplicación en una pestaña nueva.'
-            : 'Camera permission denied. Please allow camera access in your browser or open the app in a new browser tab.';
+        userMsg = t.scanner.permissionDeniedError;
       } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
-        userMsg =
-          language === 'es'
-            ? 'No se detectó ninguna cámara de video disponible en este dispositivo.'
-            : 'No video camera detected on this device.';
+        userMsg = t.scanner.noCameraDetectedError;
       } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
-        userMsg =
-          language === 'es'
-            ? 'La cámara está siendo utilizada por otra aplicación o pestaña del sistema.'
-            : 'Camera is currently in use by another application or browser tab.';
+        userMsg = t.scanner.cameraInUseError;
       }
 
       setCameraError(userMsg);
@@ -466,18 +453,10 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
           if (result && result.getText()) {
             handleScanSuccess(result.getText());
           } else {
-            setCameraError(
-              language === 'es'
-                ? 'No se encontró ningún código de barras legible en la imagen subida.'
-                : 'No readable barcode found in the uploaded image.'
-            );
+            setCameraError(t.scanner.noBarcodeInImageError);
           }
         } catch {
-          setCameraError(
-            language === 'es'
-              ? 'No se pudo decodificar un código de barras en esta imagen. Prueba con una foto más nítida o iluminación uniforme.'
-              : 'Could not decode a barcode from this image. Try a clearer image with uniform lighting.'
-          );
+          setCameraError(t.scanner.couldNotDecodeImageError);
         } finally {
           URL.revokeObjectURL(imageUrl);
         }
@@ -602,7 +581,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                 <div className="absolute inset-0 z-10 bg-black/85 flex flex-col items-center justify-center space-y-2.5">
                   <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
                   <p className="text-xs font-semibold text-white">
-                    {language === 'es' ? 'Iniciando cámara...' : 'Starting camera...'}
+                    {t.scanner.cameraStarting}
                   </p>
                 </div>
               )}
@@ -629,7 +608,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                     <div className="flex items-center gap-1.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 text-xs text-white">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                       <span className="font-mono text-[11px] font-semibold text-emerald-400">
-                        {language === 'es' ? 'EN VIVO' : 'LIVE'}
+                        {t.scanner.liveBadge}
                       </span>
                     </div>
 
@@ -638,7 +617,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                         <button
                           type="button"
                           onClick={toggleTorch}
-                          title={language === 'es' ? 'Linterna / Flash' : 'Torch / Flash'}
+                          title={t.scanner.torchTitle}
                           className={`p-1.5 rounded-lg border cursor-pointer backdrop-blur-md transition-colors ${
                             torchOn
                               ? 'bg-amber-400 text-black border-amber-300'
@@ -659,7 +638,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                           >
                             {videoDevices.map((dev, idx) => (
                               <option key={dev.deviceId || idx} value={dev.deviceId}>
-                                {dev.label || `${language === 'es' ? 'Cámara' : 'Camera'} ${idx + 1}`}
+                                {dev.label || `${t.scanner.cameraDeviceLabel} ${idx + 1}`}
                               </option>
                             ))}
                           </select>
@@ -720,7 +699,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                     >
                       <Upload className="w-3.5 h-3.5" />
                       <span>
-                        {language === 'es' ? 'Subir Foto de Código' : 'Upload Barcode Image'}
+                        {t.scanner.uploadBarcodePhoto}
                       </span>
                     </button>
                     <input
@@ -740,7 +719,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                       <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
                       <div className="flex-1">
                         <span className="font-semibold block mb-0.5">
-                          {language === 'es' ? 'Aviso de Cámara' : 'Camera Notice'}
+                          {t.scanner.cameraNotice}
                         </span>
                         <p className="text-[11px] text-red-300 leading-relaxed">{cameraError}</p>
                       </div>
@@ -752,7 +731,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                         className="inline-flex items-center gap-1 text-[11px] font-bold text-red-200 hover:text-white underline cursor-pointer"
                       >
                         <RefreshCw className="w-3 h-3" />
-                        {language === 'es' ? 'Reintentar activación' : 'Retry camera'}
+                        {t.scanner.retryCamera}
                       </button>
                       <span className="text-red-600">|</span>
                       <button
@@ -761,7 +740,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                         className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-emerald-300 underline cursor-pointer"
                       >
                         <ExternalLink className="w-3 h-3" />
-                        {language === 'es' ? 'Abrir en pestaña nueva' : 'Open in new tab'}
+                        {t.scanner.openNewTab}
                       </button>
                     </div>
                   </div>
@@ -776,7 +755,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                   <Check className="w-8 h-8 text-white stroke-[2.5]" />
                 </div>
                 <span className="font-bold text-base tracking-wide">
-                  {language === 'es' ? '¡Escaneado con Éxito!' : 'Scanned Successfully!'}
+                  {t.scanner.scannedSuccess}
                 </span>
                 <span className="font-mono text-xs bg-black/30 px-3 py-1 rounded-full mt-1.5">
                   {scannedFeedback}
@@ -805,11 +784,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                 <input
                   id="barcode-manual-input"
                   type="text"
-                  placeholder={
-                    language === 'es'
-                      ? 'Ingrese código de barras (ej. 793573192014) o SKU...'
-                      : 'Enter barcode (e.g. 793573192014) or SKU...'
-                  }
+                  placeholder={t.scanner.manualInputPlaceholder}
                   value={manualCode}
                   onChange={(e) => setManualCode(e.target.value)}
                   className={`w-full pl-9 pr-3 py-2 text-xs font-mono rounded-xl border focus:outline-hidden transition-colors ${
@@ -847,10 +822,10 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                 : 'border-neutral-700 text-neutral-300 hover:bg-neutral-800'
             }`}
           >
-            {language === 'es' ? 'Cerrar' : 'Close'}
+            {t.common.close}
           </button>
           <span className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-neutral-400'}`}>
-            {language === 'es' ? 'Compatible con lectores USB y Bluetooth' : 'Compatible with USB and Bluetooth scanners'}
+            {t.scanner.hardwareScannerNotice}
           </span>
         </div>
       </div>

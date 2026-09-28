@@ -208,7 +208,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => setActiveTab('settings')}
               id="navbar-bcv-rate-pill"
-              title={language === 'es' ? 'Tasa Oficial BCV. Clic para ir a Ajustes' : 'Official BCV Rate. Click to view in Settings'}
+              title={t.nav.bcvTooltip}
               className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs bg-neutral-900/90 border border-neutral-800 hover:border-emerald-500/50 hover:bg-neutral-850 text-neutral-300 transition-all cursor-pointer shadow-xs group"
             >
               <span className="text-[10px] font-bold text-emerald-400 group-hover:text-emerald-300 uppercase tracking-wider">BCV</span>
@@ -276,9 +276,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         {t.settings.title}
                       </div>
                       <div className="text-[10px] text-neutral-400">
-                        {language === 'es'
-                          ? 'Parámetros, red y sincronización'
-                          : 'Store params, network & sync'}
+                        {t.nav.settingsSubtitle}
                       </div>
                     </div>
                   </div>
