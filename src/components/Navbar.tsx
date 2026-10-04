@@ -156,48 +156,31 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
 
-          {/* Navigation Tabs (Text removed, icons with floating tooltips) */}
-          <nav className="hidden md:flex items-center space-x-1.5 bg-[#121212] p-1.5 rounded-xl border border-neutral-800">
+          {/* Navigation Tabs */}
+          <nav className="hidden md:flex items-center space-x-1 bg-[#121212] p-1.5 rounded-xl border border-neutral-800">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.tab;
               return (
-                <div key={item.id} className="relative group flex items-center justify-center">
-                  <button
-                    id={item.id}
-                    onClick={() => setActiveTab(item.tab)}
-                    title={item.label}
-                    aria-label={item.label}
-                    className={`p-2.5 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center justify-center relative ${
-                      isActive
-                        ? 'bg-emerald-600 text-white shadow-md shadow-emerald-950/40 font-bold'
-                        : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {item.badge !== undefined && (
-                      <span className="absolute -top-1 -right-1 bg-amber-500 text-black text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center font-mono shadow-xs">
-                        {item.badge > 9 ? '9+' : item.badge}
-                      </span>
-                    )}
-                  </button>
-
-                  {/* Floating Tooltip */}
-                  <div
-                    role="tooltip"
-                    className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:flex group-focus-within:flex flex-col items-center z-50 transition-opacity duration-150 animate-in fade-in zoom-in-95"
-                  >
-                    <div className="w-2 h-1 border-x-4 border-x-transparent border-b-4 border-b-neutral-900" />
-                    <div className="px-2.5 py-1 text-[11px] font-medium text-white bg-neutral-900 border border-neutral-700/80 rounded-md shadow-xl whitespace-nowrap flex items-center gap-1.5">
-                      <span>{item.label}</span>
-                      {item.badge !== undefined && (
-                        <span className="text-[10px] text-amber-400 font-mono font-bold">
-                          ({item.badge})
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                <button
+                  key={item.id}
+                  id={item.id}
+                  onClick={() => setActiveTab(item.tab)}
+                  aria-label={item.label}
+                  className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-2 relative ${
+                    isActive
+                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-950/40 font-bold'
+                      : 'text-neutral-300 hover:text-white hover:bg-neutral-800/70'
+                  }`}
+                >
+                  <Icon className="w-4 h-4 shrink-0" />
+                  <span className="tracking-tight whitespace-nowrap">{item.label}</span>
+                  {item.badge !== undefined && (
+                    <span className="ml-0.5 bg-amber-500 text-black text-[10px] font-extrabold px-1.5 py-0.5 rounded-full font-mono shadow-xs">
+                      {item.badge > 9 ? '9+' : item.badge}
+                    </span>
+                  )}
+                </button>
               );
             })}
           </nav>
@@ -360,43 +343,35 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Mobile Navigation Tabs (Text removed, icons with floating tooltips) */}
-        <div className="flex md:hidden overflow-x-auto py-2 px-1 space-x-2 border-t border-neutral-800 scrollbar-none justify-around items-center">
+        {/* Mobile Navigation Tabs */}
+        <div className="flex md:hidden overflow-x-auto py-2 px-1 gap-1 border-t border-neutral-800 scrollbar-none justify-around items-center">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.tab;
             return (
-              <div key={`mobile-${item.id}`} className="relative group flex items-center justify-center">
-                <button
-                  id={`mobile-${item.id}`}
-                  onClick={() => setActiveTab(item.tab)}
-                  title={item.label}
-                  aria-label={item.label}
-                  className={`p-2 rounded-lg transition-all cursor-pointer flex items-center justify-center relative ${
-                    isActive
-                      ? 'bg-emerald-600 text-white font-bold shadow-xs'
-                      : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50'
-                  }`}
-                >
-                  <Icon className="w-4.5 h-4.5" />
+              <button
+                key={`mobile-${item.id}`}
+                id={`mobile-${item.id}`}
+                onClick={() => setActiveTab(item.tab)}
+                aria-label={item.label}
+                className={`py-1.5 px-2 rounded-lg transition-all cursor-pointer flex flex-col items-center gap-1 relative min-w-[58px] ${
+                  isActive
+                    ? 'bg-emerald-600 text-white font-bold shadow-xs'
+                    : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50'
+                }`}
+              >
+                <div className="relative">
+                  <Icon className="w-4 h-4" />
                   {item.badge !== undefined && (
-                    <span className="absolute -top-1 -right-1 bg-amber-500 text-black text-[9px] font-extrabold w-3.5 h-3.5 rounded-full flex items-center justify-center font-mono">
+                    <span className="absolute -top-1 -right-2 bg-amber-500 text-black text-[9px] font-extrabold w-3.5 h-3.5 rounded-full flex items-center justify-center font-mono">
                       {item.badge > 9 ? '9+' : item.badge}
                     </span>
                   )}
-                </button>
-
-                {/* Floating Tooltip */}
-                <div
-                  role="tooltip"
-                  className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-1.5 hidden group-hover:flex group-focus-within:flex flex-col items-center z-50 whitespace-nowrap animate-in fade-in duration-100"
-                >
-                  <div className="w-2 h-1 border-x-4 border-x-transparent border-b-4 border-b-neutral-900" />
-                  <div className="px-2 py-0.5 text-[10px] font-medium text-white bg-neutral-900 border border-neutral-700/80 rounded-md shadow-lg">
-                    {item.label}
-                  </div>
                 </div>
-              </div>
+                <span className="text-[10px] leading-tight font-medium tracking-tight whitespace-nowrap">
+                  {item.label}
+                </span>
+              </button>
             );
           })}
         </div>

@@ -315,7 +315,7 @@ export const CurrencyProvider: React.FC<{
   return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
 };
 
-export const useCurrency = () => {
+export const useCurrency = (): CurrencyContextValue => {
   const context = useContext(CurrencyContext);
   if (!context) {
     const defaultSettings = dbService.getStoreSettings();
@@ -327,8 +327,9 @@ export const useCurrency = () => {
       secondarySymbol: sym === '$' ? 'Bs.' : '$',
       exchangeRate: defaultSettings.exchangeRate || 842.21,
       exchangeRateLastUpdated: defaultSettings.exchangeRateLastUpdated,
+      exchangeRateAutoSync: true,
       isSyncingBcv: false,
-      syncBcvRate: async () => ({ success: false, rate: 842.21 }),
+      syncBcvRate: async () => ({ success: false, rate: 842.21, error: undefined }),
       formatMoney: (amount: number | undefined | null) =>
         `${sym}${Number(amount || 0).toFixed(2)}`,
       formatSecondaryMoney: (amount: number | undefined | null) =>

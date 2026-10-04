@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T05:56:30Z",
+  "title": "Design System: TuBodeguita",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Terminal Emerald",
+        "canonical": "oklch(0.69 0.17 162)",
+        "tonalRamp": ["#022c22", "#064e3b", "#065f46", "#047857", "#059669", "#10b981", "#34d399", "#a7f3d0"]
+      },
+      "surface-dark": {
+        "role": "neutral",
+        "displayName": "Obsidian Canvas",
+        "canonical": "oklch(0.12 0 0)",
+        "tonalRamp": ["#000000", "#0a0a0a", "#121212", "#1a1a1a", "#262626", "#404040", "#737373", "#d4d4d4"]
+      },
+      "accent-amber": {
+        "role": "secondary",
+        "displayName": "Telemetry Amber",
+        "canonical": "oklch(0.75 0.18 75)",
+        "tonalRamp": ["#451a03", "#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fef3c7"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display Title",
+        "purpose": "POS screen titles and grand total summaries."
+      },
+      "headline": {
+        "displayName": "Section Headline",
+        "purpose": "Drawer headers and modal dialog titles."
+      },
+      "body": {
+        "displayName": "Body Sans",
+        "purpose": "General UI text, labels, and table cells."
+      },
+      "label": {
+        "displayName": "Monospace Telemetry",
+        "purpose": "Currency amounts, BCV rates, barcodes, and SKUs."
+      }
+    },
+    "shadows": [
+      {
+        "name": "modal-depth",
+        "value": "0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4)",
+        "purpose": "Elevated modal containers against backdrop overlay."
+      },
+      {
+        "name": "receipt-float",
+        "value": "0 4px 20px -2px rgba(0, 0, 0, 0.15)",
+        "purpose": "Tactile thermal receipt paper floating on counter surface."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-standard",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Smooth modal entrance and ticket drawer state transitions."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary checkout CTA and affirmative actions.",
+      "html": "<button class=\"ds-btn-primary\">Cobrar Ticket ($18.50)</button>",
+      "css": ".ds-btn-primary { background: #10b981; color: #ffffff; padding: 12px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25); transition: background 0.15s ease, transform 0.1s ease; } .ds-btn-primary:hover { background: #059669; } .ds-btn-primary:active { transform: translateY(1px); background: #047857; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Utility actions, scanner trigger, and secondary options.",
+      "html": "<button class=\"ds-btn-secondary\">Escanear Código</button>",
+      "css": ".ds-btn-secondary { background: #171717; color: #e5e5e5; padding: 10px 16px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #333333; border-radius: 12px; cursor: pointer; transition: background 0.15s ease, color 0.15s ease; } .ds-btn-secondary:hover { background: #262626; color: #ffffff; border-color: #444444; }"
+    },
+    {
+      "name": "Category Filter Chip",
+      "kind": "chip",
+      "description": "Horizontal catalog filter pills.",
+      "html": "<div style=\"display:flex;gap:8px;\"><button class=\"ds-chip ds-chip-active\">Todas</button><button class=\"ds-chip\">Víveres</button><button class=\"ds-chip\">Bebidas</button></div>",
+      "css": ".ds-chip { background: #171717; color: #a3a3a3; padding: 6px 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; border: 1px solid #262626; border-radius: 8px; cursor: pointer; transition: all 0.15s ease; } .ds-chip:hover { color: #ffffff; border-color: #404040; } .ds-chip-active { background: #10b981; color: #ffffff; border-color: #10b981; }"
+    },
+    {
+      "name": "Dual Currency Price Badge",
+      "kind": "custom",
+      "description": "Signature bi-monetary price indicator in USD and VES.",
+      "html": "<div class=\"ds-price-badge\"><span class=\"ds-price-usd\">$4.50</span><span class=\"ds-price-ves\">≈ Bs. 180,00</span></div>",
+      "css": ".ds-price-badge { display: inline-flex; align-items: baseline; gap: 6px; font-family: 'JetBrains Mono', monospace; } .ds-price-usd { font-size: 15px; font-weight: 700; color: #ffffff; } .ds-price-ves { font-size: 11px; font-weight: 500; color: #a3a3a3; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "description": "High-velocity catalog search field with keyboard shortcut focus.",
+      "html": "<div class=\"ds-input-container\"><input class=\"ds-input\" placeholder=\"Buscar producto (Presiona '/' para enfocar)...\" /></div>",
+      "css": ".ds-input-container { position: relative; width: 100%; max-width: 400px; } .ds-input { width: 100%; background: #121212; border: 1px solid #262626; border-radius: 12px; padding: 10px 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; color: #ffffff; outline: none; transition: border-color 0.15s ease; box-sizing: border-box; } .ds-input::placeholder { color: #737373; } .ds-input:focus { border-color: #10b981; }"
+    },
+    {
+      "name": "Thermal Receipt Slip",
+      "kind": "custom",
+      "description": "Physical receipt preview artifact formatted for 80mm rolls.",
+      "html": "<div class=\"ds-receipt\"><div class=\"ds-receipt-header\">TUBODEGUITA</div><div class=\"ds-receipt-sub\">Caja #01 • Sistema Local</div><div class=\"ds-receipt-line\"><span>Harina PAN 1kg (x2)</span><span>$2.40</span></div><div class=\"ds-receipt-line\"><span>Queso Blanco 500g</span><span>$3.50</span></div><hr class=\"ds-receipt-divider\"/><div class=\"ds-receipt-total\"><span>TOTAL USD</span><span>$5.90</span></div><div class=\"ds-receipt-subtotal\"><span>TOTAL VES (BCV)</span><span>Bs. 236,00</span></div></div>",
+      "css": ".ds-receipt { background: #ffffff; color: #000000; width: 220px; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); line-height: 1.4; } .ds-receipt-header { font-weight: 800; font-size: 14px; text-align: center; letter-spacing: 1px; } .ds-receipt-sub { font-size: 9px; text-align: center; color: #555555; margin-bottom: 12px; } .ds-receipt-line { display: flex; justify-content: space-between; margin-bottom: 4px; } .ds-receipt-divider { border: none; border-top: 1px dashed #999999; margin: 8px 0; } .ds-receipt-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 12px; } .ds-receipt-subtotal { display: flex; justify-content: space-between; font-size: 10px; color: #444444; margin-top: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The High-Velocity Counter Terminal",
+    "overview": "TuBodeguita's design system is engineered for the fast-paced reality of neighborhood retail counters in Latin America. It marries high-contrast digital telemetry with physical store rituals: instant dual-currency parity (USD and official BCV Bolívares), trust-based community customer credit (el fiado), and tactile thermal receipt printing. The interface is optimized for rapid peripheral scanning in varied corner-store lighting conditions, prioritizing cashier speed, minimal modal interruptions, and zero cognitive overload.\n\nThe aesthetic philosophy centers on pragmatic clarity. Dark mode serves as the default industrial workhorse canvas (#0A0A0A), reducing eye fatigue over 12-hour counter shifts, while full semantic support for light mode (#f8fafc) ensures flexibility in sunlit storefronts. Hierarchy is established through structured tonal layering and crisp hairline borders rather than gratuitous drop shadows or decorative gradients.",
+    "keyCharacteristics": [
+      "Counter-Speed Ergonomics: High-density, scan-optimized layouts designed for split-second decisions without hunting for buttons.",
+      "Bi-Monetary Telemetry: Persistent, simultaneous presentation of base USD and BCV Bolívares using tabular monospace numerals (JetBrains Mono).",
+      "Tonal Layering with Tactile Borders: Flat surfaces at rest with disciplined border contrasts (#262626 / #e2e8f0), paired with responsive hover and active micro-interactions.",
+      "Physical Authenticity: Physical thermal receipt artifacts (80mm roll typography, tear-top jagged edges) ground digital accounting in familiar bodega conventions."
+    ],
+    "rules": [
+      {
+        "name": "The Dual-Currency Rule",
+        "body": "Every customer-facing price, cart subtotal, and ledger balance must present both USD and official BCV Bolívares simultaneously. The primary currency uses prominent bold styling; the secondary equivalent is rendered in tabular monospace font immediately adjacent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Semantic Reservation Rule",
+        "body": "Emerald is strictly reserved for positive actions and success; Amber is strictly reserved for queues, debts, and warnings; Red is strictly reserved for deletions and limits. Never use accent colors purely as decorative background fills.",
+        "section": "colors"
+      },
+      {
+        "name": "The Monospace Telemetry Rule",
+        "body": "All financial amounts, exchange rates, item quantities, barcodes, and timestamps must render in font-mono (JetBrains Mono) with tabular numbers enabled to ensure vertical column alignment during rapid scanning.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-at-Rest Rule",
+        "body": "All static dashboard panels, catalog cards, and ticket containers are flat at rest. Elevation shadows appear only during active modal focus or hover state transitions.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do format every currency amount with its currency symbol ($ or Bs.) and exactly 2 decimal places using JetBrains Mono.",
+      "Do maintain a minimum touch target size of 44x44px for primary touchscreen actions on tablets and mobile screens.",
+      "Do display the BCV rate pill persistently in the header so counter staff can verify official conversions in real time.",
+      "Do use non-blocking toast notifications or accessible modal overlays for error states; never trigger browser-native window.alert()."
+    ],
+    "donts": [
+      "Don't hide navigation tab labels behind hover tooltips; counter cashiers on touchscreen tablets cannot hover.",
+      "Don't use decorative gradient text or multi-colored glow halos outside of verified theme accents.",
+      "Don't isolate customer credit (el fiado) in disconnected post-checkout modals; display active customer credit status directly on the register ticket.",
+      "Don't use low-contrast text below WCAG AA 4.5:1 ratio (e.g. avoid text-neutral-500 for essential metadata on dark backgrounds)."
+    ]
+  }
+}

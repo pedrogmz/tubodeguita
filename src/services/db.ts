@@ -689,7 +689,7 @@ export const dbService = {
     });
   },
 
-  recordCustomerPayment(customerId: string, paymentAmount: number, paymentMethod: 'cash' | 'card', notes?: string): CustomerLedgerEntry | null {
+  recordCustomerPayment(customerId: string, paymentAmount: number, paymentMethod: 'cash' | 'card' | 'pago_movil', notes?: string): CustomerLedgerEntry | null {
     const customers = this.getCustomers();
     const customer = customers.find((c) => c.id === customerId);
     if (!customer) return null;

@@ -32,10 +32,10 @@ export default function App() {
   const { t, language } = useLanguage();
   const { theme, setAccentColor } = useTheme();
 
-  // Navigation (Default to dashboard)
+  // Navigation (Default to POS Register for instant counter operation)
   const [activeTab, setActiveTab] = useState<
     'register' | 'inventory' | 'customer_ledger' | 'vendor_ledger' | 'dashboard' | 'settings'
-  >('dashboard');
+  >('register');
 
   // Store Configuration Settings
   const [storeSettings, setStoreSettings] = useState<StoreSettings>(dbService.getStoreSettings());
@@ -383,6 +383,7 @@ export default function App() {
             onRefreshData={refreshData}
             isOnline={isOnline}
             storeSettings={storeSettings}
+            showToast={showToast}
           />
         )}
 

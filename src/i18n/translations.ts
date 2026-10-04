@@ -74,6 +74,27 @@ export interface Translations {
     qtyShort: string;
     perUnit: string;
     discountShort: string;
+    clearSearch: string;
+    clearCartConfirm: string;
+    outOfStockAlert: string;
+    maxStockAlert: string;
+    holdSale: string;
+    resumeSale: string;
+    heldSaleBadge: string;
+    heldSaleAlert: string;
+    helpModalTitle: string;
+    quickCustomerModalTitle: string;
+    quickCustomerModalSubtitle: string;
+    fullName: string;
+    fullNamePlaceholder: string;
+    idDocument: string;
+    idDocumentPlaceholder: string;
+    customerPhone: string;
+    customerPhonePlaceholder: string;
+    creditLimit: string;
+    saveAndAssign: string;
+    quickRegisterBtn: string;
+    nameRequired: string;
   };
   checkout: {
     title: string;
@@ -415,6 +436,41 @@ export interface Translations {
     openBillsNotice: string;
     zeroBalanceNotice: string;
     deletingRecord: string;
+    pagoMovil: string;
+    pagoMovilDesc: string;
+    pmPhone: string;
+    pmCedula: string;
+    pmReferenceLast4: string;
+    filterAll: string;
+    filterWithDebt: string;
+    filterUpToDate: string;
+    payTotal: string;
+    amountUsd: string;
+    amountBs: string;
+    bcvRateNotice: string;
+    changeDue: string;
+    creditDepositNotice: string;
+    printThermalAbono: string;
+    paymentSuccessToast: string;
+    actionsMenu: string;
+    sendWhatsAppAbono: string;
+    sendWhatsAppStatement: string;
+    recordAbonoBtn: string;
+    recordCreditDepositBtn: string;
+    quickShortcutsLabel: string;
+    cashReceivedLabel: string;
+    cashHandedPlaceholder: string;
+    resultingBalance: string;
+    emptyLedgerTitle: string;
+    emptyLedgerDesc: string;
+    emptySearchTitle: string;
+    emptySearchDesc: string;
+    emptyWithDebtTitle: string;
+    emptyWithDebtDesc: string;
+    emptyUpToDateTitle: string;
+    emptyUpToDateDesc: string;
+    clearSearchBtn: string;
+    viewAllCustomersBtn: string;
   };
   dashboard: {
     title: string;
@@ -747,6 +803,27 @@ export const translations: Record<Language, Translations> = {
       qtyShort: 'Qty',
       perUnit: 'ea',
       discountShort: 'off',
+      clearSearch: 'Clear',
+      clearCartConfirm: 'Clear all items from current cart?',
+      outOfStockAlert: 'is currently OUT OF STOCK.',
+      maxStockAlert: 'Maximum stock available:',
+      holdSale: 'Hold Sale',
+      resumeSale: 'Resume Sale',
+      heldSaleBadge: 'Held Sale on Standby',
+      heldSaleAlert: 'Current sale held. Next customer can now be attended.',
+      helpModalTitle: 'Cashier Keyboard & Terminal Guide',
+      quickCustomerModalTitle: 'Register New Customer',
+      quickCustomerModalSubtitle: 'Fast counter registration for store account and store credit',
+      fullName: 'Full Name',
+      fullNamePlaceholder: 'e.g. Carlos Perez',
+      idDocument: 'ID / Cedula',
+      idDocumentPlaceholder: 'e.g. V-18.452.123',
+      customerPhone: 'Phone (WhatsApp)',
+      customerPhonePlaceholder: 'e.g. 0414-1234567',
+      creditLimit: 'Credit Limit ($ USD)',
+      saveAndAssign: 'Save & Assign to Ticket',
+      quickRegisterBtn: 'Register New Customer',
+      nameRequired: 'Customer name is required',
     },
     checkout: {
       title: 'Complete Payment & Checkout',
@@ -1088,6 +1165,41 @@ export const translations: Record<Language, Translations> = {
       openBillsNotice: 'Outstanding bills pending payment',
       zeroBalanceNotice: 'Account up to date (Zero balance)',
       deletingRecord: 'Deleting...',
+      pagoMovil: 'Pago Móvil',
+      pagoMovilDesc: 'Instant bank transfer (Phone, Cedula, 4-digit Ref)',
+      pmPhone: 'Originating Phone',
+      pmCedula: 'ID / Cedula',
+      pmReferenceLast4: 'Last 4 Reference Digits',
+      filterAll: 'All Accounts',
+      filterWithDebt: 'With Debt',
+      filterUpToDate: 'Up to Date',
+      payTotal: 'Pay Full Balance',
+      amountUsd: 'Amount in USD ($)',
+      amountBs: 'Bolívares Equivalent (Bs.)',
+      bcvRateNotice: 'Official BCV exchange rate in real time',
+      changeDue: 'Change Due',
+      creditDepositNotice: 'Overpayment will be added to customer prepaid credit balance',
+      printThermalAbono: 'Print Receipt (80mm)',
+      paymentSuccessToast: 'Payment recorded and ledger updated',
+      actionsMenu: 'More actions',
+      sendWhatsAppAbono: 'Send via WhatsApp',
+      sendWhatsAppStatement: 'Share Account Statement',
+      recordAbonoBtn: 'Record Payment',
+      recordCreditDepositBtn: 'Record Deposit',
+      quickShortcutsLabel: 'Quick amount presets:',
+      cashReceivedLabel: 'Cash received (change calculator):',
+      cashHandedPlaceholder: 'Amount handed by customer',
+      resultingBalance: 'Resulting balance',
+      emptyLedgerTitle: 'Customer ledger is empty',
+      emptyLedgerDesc: 'Register your first customer to open their store credit tab and track balances.',
+      emptySearchTitle: 'No matching customers',
+      emptySearchDesc: 'No customer accounts match your search. Check the spelling or phone number.',
+      emptyWithDebtTitle: 'All accounts up to date!',
+      emptyWithDebtDesc: 'No customers currently have an outstanding tab balance.',
+      emptyUpToDateTitle: 'No accounts up to date',
+      emptyUpToDateDesc: 'All registered customer accounts currently have an outstanding tab balance.',
+      clearSearchBtn: 'Clear search',
+      viewAllCustomersBtn: 'View all customers',
     },
     dashboard: {
       title: 'Store Performance & Real-Time Analytics',
@@ -1418,6 +1530,27 @@ export const translations: Record<Language, Translations> = {
       qtyShort: 'Cant.',
       perUnit: 'c/u',
       discountShort: 'desc.',
+      clearSearch: 'Limpiar',
+      clearCartConfirm: '¿Vaciar todos los productos del ticket actual?',
+      outOfStockAlert: 'está actualmente AGOTADO.',
+      maxStockAlert: 'Stock máximo disponible:',
+      holdSale: 'Suspender',
+      resumeSale: 'Reanudar venta',
+      heldSaleBadge: 'Venta suspendida',
+      heldSaleAlert: 'Venta suspendida. Listo para atender al siguiente cliente.',
+      helpModalTitle: 'Guía rápida de atajos de caja',
+      quickCustomerModalTitle: 'Registrar nuevo cliente en mostrador',
+      quickCustomerModalSubtitle: 'Registro rápido para libreta y compras fiadas',
+      fullName: 'Nombre y apellido',
+      fullNamePlaceholder: 'Ej. Carlos Pérez',
+      idDocument: 'Cédula / Documento de identidad',
+      idDocumentPlaceholder: 'Ej. V-18.452.123',
+      customerPhone: 'Teléfono (WhatsApp)',
+      customerPhonePlaceholder: 'Ej. 0414-1234567',
+      creditLimit: 'Límite de fiado ($ USD)',
+      saveAndAssign: 'Guardar y asignar a la venta',
+      quickRegisterBtn: 'Registrar nuevo cliente',
+      nameRequired: 'El nombre del cliente es obligatorio',
     },
     checkout: {
       title: 'Cobro de venta',
@@ -1759,6 +1892,41 @@ export const translations: Record<Language, Translations> = {
       openBillsNotice: 'Facturas pendientes por liquidar',
       zeroBalanceNotice: 'Cuenta al día (sin saldo pendiente)',
       deletingRecord: 'Eliminando...',
+      pagoMovil: 'Pago Móvil',
+      pagoMovilDesc: 'Transferencia bancaria instantánea (Teléfono, Cédula, Referencia)',
+      pmPhone: 'Teléfono emisor',
+      pmCedula: 'Cédula / RIF',
+      pmReferenceLast4: 'Últimos 4 dígitos de Referencia',
+      filterAll: 'Todos los clientes',
+      filterWithDebt: 'Con Deuda pendiente',
+      filterUpToDate: 'Al Día',
+      payTotal: 'Abonar saldo total',
+      amountUsd: 'Monto en Dólares ($)',
+      amountBs: 'Equivalente en Bolívares (Bs.)',
+      bcvRateNotice: 'Calculado con la tasa oficial BCV del día',
+      changeDue: 'Vuelto / Cambio a entregar',
+      creditDepositNotice: 'El excedente quedará guardado como saldo a favor en la libreta',
+      printThermalAbono: 'Imprimir Comprobante (80mm)',
+      paymentSuccessToast: 'Abono registrado con éxito en la libreta',
+      actionsMenu: 'Más acciones',
+      sendWhatsAppAbono: 'Enviar por WhatsApp',
+      sendWhatsAppStatement: 'Compartir estado de cuenta',
+      recordAbonoBtn: 'Registrar Abono',
+      recordCreditDepositBtn: 'Abonar a Favor',
+      quickShortcutsLabel: 'Atajos de monto rápido:',
+      cashReceivedLabel: 'Efectivo recibido en caja (para calcular vuelto):',
+      cashHandedPlaceholder: 'Monto entregado por el cliente',
+      resultingBalance: 'Saldo resultante',
+      emptyLedgerTitle: 'Libreta de fiados vacía',
+      emptyLedgerDesc: 'Anota a tu primer cliente para abrir su libreta de cuentas y asignarle un límite de fiado.',
+      emptySearchTitle: 'Sin coincidencias en la libreta',
+      emptySearchDesc: 'No encontramos clientes que coincidan con tu búsqueda. Revisa el nombre o teléfono.',
+      emptyWithDebtTitle: '¡Cuentas al día! Nadie debe fiado',
+      emptyWithDebtDesc: 'Todos los clientes registrados están solventes o con saldo a favor.',
+      emptyUpToDateTitle: 'Sin clientes al día',
+      emptyUpToDateDesc: 'Todos los clientes registrados tienen algún saldo pendiente por abonar.',
+      clearSearchBtn: 'Borrar búsqueda',
+      viewAllCustomersBtn: 'Ver todos los clientes',
     },
     dashboard: {
       title: 'Resumen del Negocio y Ventas',

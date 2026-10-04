@@ -515,7 +515,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
         <div className="bg-neutral-900 p-4 rounded-xl border border-neutral-800 shadow-sm">
           <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider">{t.inventory.retailValue}</span>
           <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">
-            {formatMoney(stats.totalRetailValue, 0)}
+            {formatMoney(stats.totalRetailValue, { decimals: 0 })}
           </div>
           <span className="text-[10px] text-neutral-500 mt-0.5 block">{t.inventory.shelfValue}</span>
         </div>
